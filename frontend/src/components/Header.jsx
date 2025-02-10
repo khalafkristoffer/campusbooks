@@ -9,7 +9,7 @@ const Header = () => {
         <div className="logo">
           {/* INSERT NEW SVG LOGO HERE:
                <img src="path-to-logo.svg" alt="Chalmershelf Logo" className="logo" /> */}
-          Chalmershelf
+          ChalmerShelf
         </div>
         <p className="subtitle">
           Spara pengar, dela kunskap – Chalmers egen bokmarknad

@@ -3,9 +3,6 @@ import React from "react";
 import Button from "./Button";
 import "../styles/styles.css";
 
-/**
- * SellSection component displaying options for sellers.
- */
 const SellSection = () => {
   return (
     <div className="sell-section">

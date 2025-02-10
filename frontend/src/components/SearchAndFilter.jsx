@@ -2,10 +2,6 @@
 import React from "react";
 import "../styles/styles.css";
 
-/**
- * SearchAndFilter component displays a search bar and filter dropdowns.
- * The container here ensures they align with the books grid.
- */
 const SearchAndFilter = () => {
   return (
     <div className="search-filters-container">

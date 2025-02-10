@@ -2,9 +2,6 @@
 import React from "react";
 import "../styles/styles.css";
 
-/**
- * Footer component displays common links and copyright information.
- */
 const Footer = () => {
   return (
     <footer className="footer">
