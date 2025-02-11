@@ -1,0 +1,14 @@
+Detaljer om böcker som anges av säljare respektive automatiskt:
+
+- Pris: Skriv själv in. Drop down: 0-100, 100-200, 200-300, 300-400, 400+
+- Nypris: Fetch från STORE
+- Författare: Som ovan 
+- Omslagsbild: Store?
+- Kurskod: Finns något sätt att para bok med kurskod? Store?
+- Skick: Nyskick, Använd... Eller månader sedan köp? 
+- Säljare laddar upp en bild?
+- Plats: Välj på karta eller drop down? Ex 
+Kårhus, Bulten, Du väljer (allt funkar)
+Om vid filtrering det ej existerar en sådann bok (exempelvis ingen i en specifik kurs). 
+
+Popup ruta med en how to do när man kommer in på hemsidan, nerklickbar
