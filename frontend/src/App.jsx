@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Button from "./components/Button";
+import BuyInstructions from "./components/BuyInstructions"; // New component for buy instructions
 import SearchAndFilter from "./components/SearchAndFilter";
 import BookList from "./components/BookList";
 import SellSection from "./components/SellSection";
@@ -30,8 +31,12 @@ function HomePage({ isSeller, setIsSeller, books }) {
       </div>
       {!isSeller ? (
         <>
-          <SearchAndFilter />
-          <BookList books={books} />
+          <BuyInstructions />
+          {/* Both the search/filter bar and the grid of books are in the same container */}
+          <div className="search-filters-container">
+            <SearchAndFilter />
+            <BookList books={books} />
+          </div>
         </>
       ) : (
         <SellSection />
@@ -43,7 +48,7 @@ function HomePage({ isSeller, setIsSeller, books }) {
 function App() {
   const [isSeller, setIsSeller] = useState(false);
 
-  // Sample books array with "id", "author", and "kurskod"
+  // Keeping the duplicate book entries as provided
   const books = [
     {
       id: 1,
@@ -118,18 +123,6 @@ function App() {
       description: "A detailed description of Webbutveckling med React.",
     },
     {
-      id: 1,
-      title: "Datornätverk",
-      author: "Lars Pettersson",
-      kurskod: "EDA450",
-      condition: "Good",
-      price: 320,
-      originalPrice: 750,
-      location: "Hubben",
-      image: "",
-      description: "A detailed description of Datornätverk.",
-    },
-    {
       id: 2,
       title: "Maskininlärningens Grunder",
       author: "Maria Svensson",
@@ -153,7 +146,6 @@ function App() {
       image: "",
       description: "A detailed description of Webbutveckling med React.",
     },
-    // Add more books as needed...
   ];
 
   return (
