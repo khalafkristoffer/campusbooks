@@ -18,17 +18,16 @@
     margin: 0 auto;
   }
   .logo {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: white;
     margin: 0;
     /* INSERT NEW SVG LOGO HERE:
-       Replace this text with an <img> tag for your SVG logo.
-       Example: <img src="path-to-logo.svg" alt="Chalmershelf Logo" className="logo" />
+       <img src="path-to-logo.svg" alt="Chalmershelf Logo" className="logo" />
     */
   }
   .subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #ddd;
     margin: 5px 0 0 0;
   }

@@ -45,4 +45,38 @@
     background-color: #b71c1c;
     transform: scale(1.03);
   }
-  
+
+  /* Make the select fields in the sell section look like the input fields */
+.sell-section input,
+.sell-section select {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  background: #f9f9f9;
+  color: #333;
+}
+
+.buy-tutorial {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin: 20px auto;
+    max-width: 800px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  .buy-tutorial ol {
+    margin: 0;
+    padding: 0 20px;
+    list-style-position: inside;
+    text-align: left;
+  }
+  .buy-tutorial li {
+    margin-bottom: 5px;
+  }

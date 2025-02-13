@@ -12,10 +12,12 @@ const Footer = () => {
         <a href="/terms">Terms &amp; Conditions</a>
       </div>
       <div className="footer-copy">
-        © {new Date().getFullYear()} Chalmershelf. All rights reserved.
+        Ge ett nytt liv till gamla böcker!
       </div>
     </footer>
   );
 };
 
 export default Footer;
+
+/* © {new Date().getFullYear()} i "footer-copy" för trademark + år.*/
