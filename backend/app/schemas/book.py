@@ -12,7 +12,7 @@ class BookBase(BaseModel):
 class BookCreate(BookBase):
     pass
 
-class Book(BookBase):
+class BookAPIModel(BookBase):
     id: int
     # seller_id: int      FOR LATER
 

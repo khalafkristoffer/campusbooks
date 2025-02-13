@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Tex
 from sqlalchemy.orm import relationship
 from app.database import Base
 
-class Book(Base):
+class BookDBModel(Base):
     __tablename__ = "books"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(100), index=True)
