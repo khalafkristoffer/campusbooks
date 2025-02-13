@@ -1,0 +1,105 @@
+/* Books Grid (Home Page) */
+/* Using flexbox to wrap and distribute cards evenly */
+.books-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    row-gap: 15px;
+    box-sizing: border-box;
+    align-content: space-around;
+  }
+  
+  /* Horizontal Book Card Styles (Home Page Preview) */
+  .book-card-horizontal {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;  /* Ensure both subcards are the same height */
+    background: #f7f7f7;  /* Light gray background */
+    border: 1px solid #e0e0e0;  /* Gray border */
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 380px;
+    height: 250px;  /* Fixed height for consistency */
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  .book-card-horizontal:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  /* Left Subcard: Image */
+  .book-card-horizontal .book-card-image {
+    flex: 0 0 150px;  /* Fixed width of 150px */
+    height: 100%;
+    overflow: hidden;
+  }
+  .book-card-horizontal .book-card-image img {
+    width: 150px;
+    height: 100%;
+    object-fit: cover;  /* Fill container; image is cropped if needed */
+    border-radius: 4px;
+  }
+  
+  /* Right Subcard: Details */
+  .book-card-horizontal .book-card-details {
+    flex: 1;
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+  }
+  .details-top {
+    min-height: 40px; /* Fixed height for the title area */
+  }
+  .details-bottom {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .price-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+  .other-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  /* Book text styling */
+  .book-card-horizontal .book-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1976d2;
+    margin: 0 0 8px 0;
+  }
+  .book-card-horizontal .book-kurskod,
+  .book-card-horizontal .book-condition,
+  .book-card-horizontal .book-price,
+  .book-card-horizontal .book-location {
+    font-size: 0.9rem;
+    color: #333;
+    margin: 0;
+  }
+  .book-card-horizontal .book-price {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .book-card-horizontal .book-original-price {
+    font-size: 0.85rem;
+    color: #888;
+    text-decoration: line-through;
+    margin-left: 0;
+  }
+  

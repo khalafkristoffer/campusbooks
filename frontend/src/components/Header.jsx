@@ -1,6 +1,6 @@
 // src/components/Header.jsx
 import React from "react";
-import "../styles/styles.css";
+import "../styles/header.css";
 
 const Header = () => {
   return (
@@ -9,7 +9,7 @@ const Header = () => {
         <div className="logo">
           {/* INSERT NEW SVG LOGO HERE:
                <img src="path-to-logo.svg" alt="Chalmershelf Logo" className="logo" /> */}
-          ChalmerShelf
+          Chalmershelf
         </div>
         <p className="subtitle">
           Spara pengar, dela kunskap – Chalmers egen bokmarknad

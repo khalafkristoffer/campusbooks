@@ -1,0 +1,21 @@
+/* Buy Tutorial Box */
+.buy-tutorial {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin: 20px auto;
+    max-width: 800px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  .buy-tutorial ol {
+    margin: 0;
+    padding: 0 20px;
+    list-style-position: inside;
+    text-align: left;
+  }
+  .buy-tutorial li {
+    margin-bottom: 5px;
+  }
+  

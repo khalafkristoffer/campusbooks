@@ -1,0 +1,54 @@
+/* Book Details Page Styles */
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+  }
+  .book-detail-container {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #1976d2;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    max-width: 900px;
+    width: 100%;
+    margin: 80px auto 20px;
+    box-sizing: border-box;
+    color: white;
+    text-align: left;
+  }
+  .book-detail-left {
+    flex: 1;
+  }
+  .book-detail-left img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  .book-detail-right {
+    flex: 2;
+  }
+  .book-detail-right h1 {
+    font-size: 1.5rem;
+    color: white;
+    margin-top: 0;
+  }
+  .book-info-list {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 10px 0;
+  }
+  .book-info-list li {
+    margin: 5px 0;
+  }
+  .book-description-box {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 10px;
+    background: #ffffff;
+    color: #333;
+    margin-top: 20px;
+  }
+  

@@ -3,13 +3,24 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Button from "./components/Button";
-import BuyInstructions from "./components/BuyInstructions"; // New component for buy instructions
+import BuyInstructions from "./components/BuyInstructions";
 import SearchAndFilter from "./components/SearchAndFilter";
 import BookList from "./components/BookList";
 import SellSection from "./components/SellSection";
 import BookDetails from "./components/BookDetails";
 import Footer from "./components/Footer";
-import "./styles/styles.css";
+
+// Import all modularized style files
+import "./styles/global.css";
+import "./styles/layout.css";
+import "./styles/header.css";
+import "./styles/buttons.css";
+import "./styles/search.css";
+import "./styles/books.css";
+import "./styles/sell-section.css";
+import "./styles/book-detail.css";
+import "./styles/footer.css";
+import "./styles/tutorial.css";
 
 function HomePage({ isSeller, setIsSeller, books }) {
   return (
@@ -32,11 +43,8 @@ function HomePage({ isSeller, setIsSeller, books }) {
       {!isSeller ? (
         <>
           <BuyInstructions />
-          {/* Both the search/filter bar and the grid of books are in the same container */}
-          <div className="search-filters-container">
-            <SearchAndFilter />
-            <BookList books={books} />
-          </div>
+          <SearchAndFilter />
+          <BookList books={books} />
         </>
       ) : (
         <SellSection />
@@ -48,7 +56,6 @@ function HomePage({ isSeller, setIsSeller, books }) {
 function App() {
   const [isSeller, setIsSeller] = useState(false);
 
-  // Keeping the duplicate book entries as provided
   const books = [
     {
       id: 1,
@@ -87,66 +94,92 @@ function App() {
       description: "A detailed description of Webbutveckling med React.",
     },
     {
-      id: 1,
-      title: "Datornätverk",
-      author: "Lars Pettersson",
-      kurskod: "EDA450",
+      id: 4,
+      title: "Matematik 101",
+      author: "Anna Andersson",
+      kurskod: "MATH101",
+      condition: "Used",
+      price: 150,
+      originalPrice: 300,
+      location: "Campus",
+      image: "",
+      description: "A detailed description of Matematik 101.",
+    },
+    {
+      id: 5,
+      title: "Fysikens Grundprinciper",
+      author: "Oskar Olsson",
+      kurskod: "FYS100",
       condition: "Good",
-      price: 320,
-      originalPrice: 750,
-      location: "Hubben",
-      image: "",
-      description: "A detailed description of Datornätverk.",
-    },
-    {
-      id: 2,
-      title: "Maskininlärningens Grunder",
-      author: "Maria Svensson",
-      kurskod: "ML400",
-      condition: "Excellent",
-      price: 500,
-      originalPrice: 1000,
+      price: 200,
+      originalPrice: 400,
       location: "Biblioteket",
       image: "",
-      description: "A detailed description of Maskininlärningens Grunder.",
+      description: "A detailed description of Fysikens Grundprinciper.",
     },
     {
-      id: 3,
-      title: "Webbutveckling med React",
-      author: "Karin Lindström",
-      kurskod: "TDA567",
-      condition: "Used",
-      price: 350,
-      originalPrice: 800,
-      location: "Lindholmen",
-      image: "",
-      description: "A detailed description of Webbutveckling med React.",
-    },
-    {
-      id: 2,
-      title: "Maskininlärningens Grunder",
-      author: "Maria Svensson",
-      kurskod: "ML400",
+      id: 6,
+      title: "Kemi för nybörjare",
+      author: "Elsa Eriksson",
+      kurskod: "KEM101",
       condition: "Excellent",
-      price: 500,
-      originalPrice: 1000,
+      price: 100,
+      originalPrice: 250,
+      location: "Lab",
+      image: "",
+      description: "A detailed description of Kemi för nybörjare.",
+    },
+    {
+      id: 7,
+      title: "Historia av Europa",
+      author: "Fredrik Fransson",
+      kurskod: "HIS201",
+      condition: "Good",
+      price: 180,
+      originalPrice: 350,
+      location: "Campus",
+      image: "",
+      description: "A detailed description of Historia av Europa.",
+    },
+    {
+      id: 8,
+      title: "Svenska Litteraturen",
+      author: "Ingrid Ivarsson",
+      kurskod: "SVL101",
+      condition: "Used",
+      price: 220,
+      originalPrice: 500,
       location: "Biblioteket",
       image: "",
-      description: "A detailed description of Maskininlärningens Grunder.",
+      description: "A detailed description of Svenska Litteraturen.",
     },
     {
-      id: 3,
-      title: "Webbutveckling med React",
-      author: "Karin Lindström",
-      kurskod: "TDA567",
-      condition: "Used",
-      price: 350,
-      originalPrice: 800,
-      location: "Lindholmen",
+      id: 9,
+      title: "Datateknikens Grunder",
+      author: "Johan Johansson",
+      kurskod: "DAT101",
+      condition: "Excellent",
+      price: 400,
+      originalPrice: 900,
+      location: "Campus",
       image: "",
-      description: "A detailed description of Webbutveckling med React.",
+      description: "A detailed description of Datateknikens Grunder.",
     },
+    {
+      id: 10,
+      title: "Ekonomiska Principer",
+      author: "Klara Karlsson",
+      kurskod: "EKO101",
+      condition: "Good",
+      price: 350,
+      originalPrice: 700,
+      location: "Online",
+      image: "",
+      description: "A detailed description of Ekonomiska Principer.",
+    },
+  
   ];
+  
 
   return (
     <Router>

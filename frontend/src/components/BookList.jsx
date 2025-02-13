@@ -1,10 +1,8 @@
+// src/components/BookList.jsx
 import React from "react";
 import BookCard from "./BookCard";
-import "../styles/styles.css";
+import "../styles/books.css";
 
-/**
- * BookList renders a grid of BookCard components.
- */
 const BookList = ({ books }) => {
   return (
     <div className="books-grid">

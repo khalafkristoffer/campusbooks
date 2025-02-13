@@ -1,11 +1,7 @@
 // src/components/Button.jsx
 import React from "react";
-import "../styles/styles.css";
+import "../styles/buttons.css";
 
-/**
- * Button component to render a styled button.
- * @param {object} props - Properties including children, className, and onClick.
- */
 const Button = ({ children, className, onClick }) => {
   return (
     <button onClick={onClick} className={`button ${className}`}>

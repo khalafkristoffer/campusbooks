@@ -1,0 +1,35 @@
+/* Header Styles */
+/* Full-width header with reduced vertical padding that extends to the top */
+.header {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    margin-top: -20px; /* Pull header up to cancel container's top padding */
+    padding: 8px 0;
+    background-color: #1976d2; /* Blue background same as the footer */
+    color: white;
+    text-align: center;
+  }
+  .header-content {
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    /* INSERT NEW SVG LOGO HERE:
+       Replace this text with an <img> tag for your SVG logo.
+       Example: <img src="path-to-logo.svg" alt="Chalmershelf Logo" className="logo" />
+    */
+  }
+  .subtitle {
+    font-size: 1rem;
+    color: #ddd;
+    margin: 5px 0 0 0;
+  }
+  

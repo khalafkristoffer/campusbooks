@@ -1,7 +1,7 @@
 // src/components/BookCard.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import "../styles/styles.css";
+import "../styles/books.css";
 import placeholder from "../assets/grudat.jpg";
 
 const BookCard = ({ book }) => {
@@ -9,10 +9,7 @@ const BookCard = ({ book }) => {
     <Link to={`/books/${book.id}`} style={{ textDecoration: "none", color: "inherit" }}>
       <div className="book-card-horizontal">
         <div className="book-card-image">
-          <img
-            src={book.image || placeholder}
-            alt={`${book.title} cover`}
-          />
+          <img src={book.image || placeholder} alt={`${book.title} cover`} />
         </div>
         <div className="book-card-details">
           <div className="details-top">

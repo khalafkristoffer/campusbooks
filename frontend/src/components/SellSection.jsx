@@ -1,12 +1,12 @@
 // src/components/SellSection.jsx
 import React from "react";
 import Button from "./Button";
-import "../styles/styles.css";
+import "../styles/sell-section.css";
 
 const SellSection = () => {
   return (
     <div className="sell-section">
-      <h2>Lägg upp din bok</h2>
+      <h2>Lägg upp en ny bok</h2>
       <input type="text" placeholder="Boktitel" />
       <input type="number" placeholder="Pris" />
       <select className="sell-input">
@@ -31,7 +31,7 @@ const SellSection = () => {
       <p style={{ fontSize: "0.9rem", margin: "10px 0", textAlign: "center" }}>
         Får du inte sålt din bok? Vi köper den!
       </p>
-      <Button className="sell-button">📦 Sälj direkt till oss</Button>
+      <Button className="sell-button">📦 Sälj till oss</Button>
     </div>
   );
 };

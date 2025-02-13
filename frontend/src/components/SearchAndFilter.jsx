@@ -1,14 +1,14 @@
 // src/components/SearchAndFilter.jsx
 import React from "react";
-import "../styles/styles.css";
+import "../styles/search.css";
 
 const SearchAndFilter = () => {
   return (
     <div className="search-filters-container">
-      <input 
-        type="text" 
-        className="search-bar" 
-        placeholder="Sök din kursbok..." 
+      <input
+        type="text"
+        className="search-bar"
+        placeholder="Sök din kursbok..."
       />
       <div className="filters">
         <select>

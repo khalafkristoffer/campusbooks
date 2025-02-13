@@ -1,0 +1,48 @@
+/* Sell Section */
+.sell-section {
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    margin: 20px auto;
+  }
+  .sell-section p {
+    font-size: 1rem;
+    color: #444;
+  }
+  .sell-section h2 {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  .sell-section input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  .sell-section .button {
+    margin: 0 auto 15px;
+    display: block;
+  }
+  .sell-button {
+    background-color: #d32f2f;
+    color: #fff;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.2s;
+  }
+  .sell-button:hover {
+    background-color: #b71c1c;
+    transform: scale(1.03);
+  }
+  

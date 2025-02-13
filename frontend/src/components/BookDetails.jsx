@@ -2,7 +2,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Button from "./Button";
-import "../styles/styles.css";
+import "../styles/book-detail.css";
 import placeholder from "../assets/grudat.jpg";
 
 const BookDetails = ({ books }) => {
@@ -21,10 +21,7 @@ const BookDetails = ({ books }) => {
       </Button>
       <div className="book-detail-container">
         <div className="book-detail-left">
-          <img
-            src={book.image || placeholder}
-            alt={`${book.title} cover`}
-          />
+          <img src={book.image || placeholder} alt={`${book.title} cover`} />
         </div>
         <div className="book-detail-right">
           <h1>{book.title}</h1>
