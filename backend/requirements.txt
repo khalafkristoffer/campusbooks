@@ -1,3 +1,4 @@
+# CORE DEPENDENCIES
 fastapi[standard]
 starlette
 uvicorn
