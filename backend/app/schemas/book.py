@@ -1,9 +1,9 @@
 from pydantic import BaseModel
-from typing import List, Optional
 
 class BookBase(BaseModel):
     title: str
     author: str
+    description: str
     course_code: str
     condition: str
     price: int
@@ -14,7 +14,7 @@ class BookCreate(BookBase):
 
 class Book(BookBase):
     id: int
-    seller_id: int
+    # seller_id: int      FOR LATER
 
     class Config:
         from_attributes = True
