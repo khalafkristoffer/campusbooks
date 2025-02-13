@@ -4,23 +4,17 @@ from app.database import Base
 from app.models.book import Book
 from app.schemas.book import BookCreate
 
-class Book(Base):
-    __tablename__ = "books"
-    id = Column(String, primary_key=True)
-    # Add other book attributes here
-
 def create_book(db: Session, book: BookCreate, seller_id: int):
     """Create a new book entry in the database"""
     db_book = Book(
         title=book.title,
         author=book.author,
         description=book.description,
-        price=book.price,
-        condition=book.condition,
-        location=book.location,
         course_code=book.course_code,
-        seller_id=seller_id
-    )
+        condition=book.condition,
+        price=book.price,
+        location=book.location,
+        )
     db.add(db_book)
     db.commit()
     db.refresh(db_book)
