@@ -15,12 +15,11 @@ def create_book(db: Session, book: BookCreate, seller_id: int):
         title=book.title,
         author=book.author,
         description=book.description,
-        price=book.price,
-        condition=book.condition,
-        location=book.location,
         course_code=book.course_code,
-        seller_id=seller_id
-    )
+        condition=book.condition,
+        price=book.price,
+        location=book.location,
+        )
     db.add(db_book)
     db.commit()
     db.refresh(db_book)
