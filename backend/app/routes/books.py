@@ -1,22 +1,23 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-import app.crud as crud
+from app.crud.book import *
 import app.database as database
 from app.schemas.book import *
 
 router = APIRouter()
 
 @router.post("/books/", response_model=BookAPIModel)
-async def create_book(book: BookCreate, db: Session = Depends(database.get_db), seller_id: int = 1):
-    return crud.create_book(db, book, seller_id)
+async def create_book(book: BookCreate, db: Session = Depends(database.get_db)):
+    created_book = CRUDcreate_book(db, book)
+    return created_book
 
 @router.get("/books/", response_model=list[BookAPIModel])
 async def get_books(db: Session = Depends(database.get_db), skip: int = 0, limit: int = 10):
-    return crud.get_books(db, skip, limit)
+    return get_books(db, skip, limit)
 
 @router.get("/books/{course_code}", response_model=list[BookAPIModel])
 async def get_books_by_course(course_code: str, db: Session = Depends(database.get_db)):
-    books = crud.get_books_by_course(db, course_code)
+    books = get_books_by_course(db, course_code)
     if not books:
         raise HTTPException(status_code=404, detail="No books found")
     return books

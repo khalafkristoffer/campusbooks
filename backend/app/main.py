@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.routes import books
+from app.routes import courses
 from app.database import Base, engine
 
 from app.core.config import settings
@@ -11,3 +12,4 @@ app = FastAPI(
 Base.metadata.create_all(bind=engine)
 
 app.include_router(books.router)
+app.include_router(courses.router)

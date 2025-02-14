@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Text
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app.database import Base
 
@@ -7,12 +7,9 @@ class BookDBModel(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(100), index=True)
     author = Column(String(100))
-    description = Column(Text)
-    price = Column(int)
-    condition = Column(String(50))
-    location = Column(String(100))
-    status = Column(String(50), default="Available")
     course_code = Column(String, ForeignKey("courses.code"))
-    seller_id = Column(Integer, ForeignKey("users.id"))
+    condition = Column(String(50))
+    price = Column(Integer)
+    location = Column(String(100))
 
-    course = relationship("Course", back_populates="books")
+    course = relationship("CourseDBModel", back_populates="books")

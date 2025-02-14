@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # change username and password later using environment variables
-SQLALCHEMY_DATABASE_URL = "postgresql://user:password@localhost/chalmershelf"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:chalmers@localhost/chalmersshelf"
 
 # Create SQLAlchemy engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
