@@ -8,6 +8,7 @@ class BookDBModel(Base):
     title = Column(String(100), index=True)
     author = Column(String(100))
     course_code = Column(String, ForeignKey("courses.code"))
+    description = Column(String(500)) #temp delete if issues
     condition = Column(String(50))
     price = Column(Integer)
     location = Column(String(100))
