@@ -5,7 +5,7 @@ from app.models.book import BookDBModel
 from app.schemas.book import BookBase
 
 def CRUDcreate_book(db: Session, book: BookBase):
-    db_book = BookDBModel(**book.dict())
+    db_book = BookDBModel(**book.model_dump())
     db.add(db_book)
     db.commit()
     db.refresh(db_book)
