@@ -6,7 +6,7 @@ class BookDBModel(Base):
     __tablename__ = "books"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(100), index=True)
-    author = Column(String(100))
+    aufothor = Column(String(100))
     course_code = Column(String, ForeignKey("courses.code"))
     description = Column(String(500)) #temp delete if issues
     condition = Column(String(50))

@@ -4,6 +4,7 @@ class BookBase(BaseModel):
     title: str
     author: str
     course_code: str
+    description: str
     condition: str
     price: int
     location: str
