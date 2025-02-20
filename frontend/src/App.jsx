@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Button from "./components/Button";
@@ -10,7 +10,7 @@ import BookList from "./components/BookList";
 import SellSection from "./components/SellSection";
 import BookDetails from "./components/BookDetails";
 import Footer from "./components/Footer";
-
+import { getAllBooks } from "./api/books";
 // Import all modularized style files
 import "./styles/global.css";
 import "./styles/layout.css";
@@ -59,118 +59,20 @@ function HomePage({ isSeller, setIsSeller, books }) {
 
 function App() {
   const [isSeller, setIsSeller] = useState(false);
+  const [books, setBooks] = useState([]); // Initialize state for books
 
-  const books = [
-    {
-      id: 1,
-      title: "Datornätverk",
-      author: "Lars Pettersson",
-      kurskod: "EDA450",
-      condition: "Good",
-      price: 320,
-      originalPrice: 750,
-      location: "Hubben",
-      image: "",
-      description: "A detailed description of Datornätverk.",
-    },
-    {
-      id: 2,
-      title: "Maskininlärningens Grunder",
-      author: "Maria Svensson",
-      kurskod: "ML400",
-      condition: "Excellent",
-      price: 500,
-      originalPrice: 1000,
-      location: "Biblioteket",
-      image: "",
-      description: "A detailed description of Maskininlärningens Grunder.",
-    },
-    {
-      id: 3,
-      title: "Webbutveckling med React",
-      author: "Karin Lindström",
-      kurskod: "TDA567",
-      condition: "Used",
-      price: 350,
-      originalPrice: 800,
-      location: "Lindholmen",
-      image: "",
-      description: "A detailed description of Webbutveckling med React.",
-    },
-    {
-      id: 1,
-      title: "Datornätverk",
-      author: "Lars Pettersson",
-      kurskod: "EDA450",
-      condition: "Good",
-      price: 320,
-      originalPrice: 750,
-      location: "Hubben",
-      image: "",
-      description: "A detailed description of Datornätverk.",
-    },
-    {
-      id: 2,
-      title: "Maskininlärningens Grunder",
-      author: "Maria Svensson",
-      kurskod: "ML400",
-      condition: "Excellent",
-      price: 500,
-      originalPrice: 1000,
-      location: "Biblioteket",
-      image: "",
-      description: "A detailed description of Maskininlärningens Grunder.",
-    },
-    {
-      id: 3,
-      title: "Webbutveckling med React",
-      author: "Karin Lindström",
-      kurskod: "TDA567",
-      condition: "Used",
-      price: 350,
-      originalPrice: 800,
-      location: "Lindholmen",
-      image: "",
-      description: "A detailed description of Webbutveckling med React.",
-    },
-    {
-      id: 1,
-      title: "Datornätverk",
-      author: "Lars Pettersson",
-      kurskod: "EDA450",
-      condition: "Good",
-      price: 320,
-      originalPrice: 750,
-      location: "Hubben",
-      image: "",
-      description: "A detailed description of Datornätverk.",
-    },
-    {
-      id: 2,
-      title: "Maskininlärningens Grunder",
-      author: "Maria Svensson",
-      kurskod: "ML400",
-      condition: "Excellent",
-      price: 500,
-      originalPrice: 1000,
-      location: "Biblioteket",
-      image: "",
-      description: "A detailed description of Maskininlärningens Grunder.",
-    },
-    {
-      id: 3,
-      title: "Webbutveckling med React",
-      author: "Karin Lindström",
-      kurskod: "TDA567",
-      condition: "Used",
-      price: 350,
-      originalPrice: 800,
-      location: "Lindholmen",
-      image: "",
-      description: "A detailed description of Webbutveckling med React.",
-    },
-    // Add more books as needed...
-  ];
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const data = await getAllBooks();
+        setBooks(data);
+      } catch (error) {
+        console.error("Failed to fetch books:", error);
+      }
+    };
+
+    fetchBooks();
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   return (
     <Router>
@@ -197,5 +99,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;

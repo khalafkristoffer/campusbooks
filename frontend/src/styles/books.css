@@ -1,14 +1,17 @@
 /* Books Grid (Home Page) */
 /* Using flexbox to wrap and distribute cards evenly */
 .books-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
+    display: flex;              
+    flex-direction: row;
+    flex-wrap: wrap;            
+    justify-content: flex-start; 
+    gap: 15px;                  
+    row-gap: 15px;               
+    align-items: stretch;        
     width: 100%;
     row-gap: 15px;
     box-sizing: border-box;
-    align-content: space-around;
+    align-content: flex-start;
   }
   
   /* Horizontal Book Card Styles (Home Page Preview) */

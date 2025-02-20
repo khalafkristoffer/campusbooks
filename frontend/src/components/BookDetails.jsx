@@ -27,10 +27,10 @@ const BookDetails = ({ books }) => {
           <h1>{book.title}</h1>
           <ul className="book-info-list">
             <li>📚 Författare: {book.author}</li>
-            <li>📖 Kurskod: {book.kurskod}</li>
+            <li>📖 Kurskod: {book.course_code}</li> {/* make sure to use same names as in json file */}
             <li>👍 Skick: {book.condition}</li>
             <li>💰 Pris: {book.price} kr</li>
-            <li>🏷️ Nypris: {book.originalPrice} kr</li>
+            <li>🏷️ Nypris: {book.originalPrice} kr</li> {/* either skip implementation or manually add later? */}
             <li>📍 Plats: {book.location}</li>
           </ul>
           <div className="book-description-box">
