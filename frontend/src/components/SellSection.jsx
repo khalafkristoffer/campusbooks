@@ -10,6 +10,14 @@ const SellSection = () => {
       <input type="text" placeholder="Boktitel" />
       <input type="number" placeholder="Pris" />
       <select className="sell-input">
+        <option value="">Kurskod</option>
+        <option value="Ny">TDA555</option>
+        <option value="Mycket bra">TDA555</option>
+        <option value="Bra">TDA555</option>
+        <option value="Använd">TDA555</option>
+        <option value="Dålig">TDA555</option>
+      </select>
+      <select className="sell-input">
         <option value="">Skick</option>
         <option value="Ny">Factory New</option>
         <option value="Mycket bra">Minimal Wear</option>
