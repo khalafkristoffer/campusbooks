@@ -9,7 +9,7 @@ const BookCard = ({ book }) => {
     <Link to={`/books/${book.id}`} style={{ textDecoration: "none", color: "inherit" }}>
       <div className="book-card-horizontal">
         <div className="book-card-image">
-          <img src={book.image || placeholder} alt={`${book.title} cover`} />
+          <img src={book.image_url || placeholder} alt={`${book.title} cover`} />
         </div>
         <div className="book-card-details">
           <div className="details-top">

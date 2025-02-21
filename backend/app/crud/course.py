@@ -9,3 +9,7 @@ def CRUDcreate_course(db: Session, course: CourseCreate):
     db.commit()
     db.refresh(db_course)
     return db_course
+
+def CRUDget_courses(db: Session):
+    # Get all course codes
+    return db.query(CourseDBModel).all()

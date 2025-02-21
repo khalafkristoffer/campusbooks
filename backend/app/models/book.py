@@ -12,5 +12,7 @@ class BookDBModel(Base):
     condition = Column(String(50))
     price = Column(Integer)
     location = Column(String(100))
+    image_url = Column(String(500), nullable=True) # optional
+
 
     course = relationship("CourseDBModel", back_populates="books")

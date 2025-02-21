@@ -128,3 +128,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# alembic scripts
+alembic.ini
+alembic/versions/*
+alembic/versions/py.mako*
+backend/alembic/*
+backend/alembic
+# self config alembic per device
+# only needed for testing until database is finalized
