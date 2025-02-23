@@ -11,7 +11,7 @@ import SellSection from "./components/SellSection";
 import BookDetails from "./components/BookDetails";
 import Footer from "./components/Footer";
 import { getAllBooks } from "./api/books";
-import { QueryClient, QueryClientProvider } from 'react-query'; // Import QueryClient and QueryClientProvider
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // Import QueryClient and QueryClientProvider
 // Import all modularized style files
 import "./styles/global.css";
 import "./styles/layout.css";

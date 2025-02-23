@@ -1,46 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/search.css";
-import { useQuery } from "react-query"; // Import useQuery
-import apiClient from "../api/client"; // Import apiClient
+import { useQuery } from "@tanstack/react-query";
+import apiClient from "../api/client";
 
 const SearchAndFilter = ({ onFilterChange }) => {
-  const [selectedCourseCode, setSelectedCourseCode] = useState("");
-  const [selectedPriceRange, setSelectedPriceRange] = useState("");
-  const [selectedCondition, setSelectedCondition] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
+  const [filters, setFilters] = useState({
+    courseCode: "",
+    priceRange: "",
+    condition: "",
+    location: "",
+    searchTerm: "",
+  });
 
-  const handleCourseCodeChange = (event) => {
-    const courseCode = event.target.value;
-    setSelectedCourseCode(courseCode);
-    onFilterChange({ ...filters, courseCode: courseCode });
+  //debouncing the search term
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedSearchTerm(filters.searchTerm);
+    }, 500);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [filters.searchTerm]);
+
+  useEffect(() => {
+    onFilterChange(filters);
+  }, [debouncedSearchTerm, filters]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFilters({ ...filters, [name]: value });
   };
 
-  const handlePriceRangeChange = (event) => {
-    const priceRange = event.target.value;
-    setSelectedPriceRange(priceRange);
-    onFilterChange({ ...filters, priceRange: priceRange });
+  const handleSearch = (event) => {
+    const { value } = event.target;
+    setFilters({ ...filters, searchTerm: value });
   };
-
-  const handleConditionChange = (event) => {
-    setSelectedCondition(event.target.value);
-    onFilterChange({ ...filters, condition });
-  };
-
-  const handleLocationChange = (event) => {
-    setSelectedLocation(event.target.value);
-    onFilterChange({ ...filters, location });
-  };
-
-  const [filters, setFilters] = useState({});
 
   // Fetch course codes using React Query
-  const { isLoading, error, data: courseCodes } = useQuery(
-    "courseCodes",
-    async () => {
-      const response = await apiClient.get("/course_codes/"); // Replace with your actual endpoint
+  const { isLoading, error, data: courseCodes } = useQuery({
+    queryKey: ["courseCodes"],
+    queryFn: async () => {
+      const response = await apiClient.get("/course_codes/");
       return response.data;
-    }
-  );
+    },
+  });
 
   return (
     <div className="search-filters-container">
@@ -49,16 +55,18 @@ const SearchAndFilter = ({ onFilterChange }) => {
         type="text"
         className="search-bar"
         placeholder="Sök din kursbok..."
+        onChange={handleSearch}
       />
       <div className="filters">
         <select
           id="courseCodeFilter"
-          value={selectedCourseCode}
-          onChange={handleCourseCodeChange}
-          disabled={isLoading || error} // Disable while loading or if there's an error
+          name="courseCode"
+          value={filters.courseCode}
+          onChange={handleChange}
+          disabled={isLoading || error}
         >
-          <option value="" disabled hidden>
-            {selectedCourseCode || "Filtrera kurskod"}
+          <option value="">
+            {filters.courseCode || "Filtrera kurskod"}
           </option>
           {isLoading ? (
             <option disabled>Loading...</option>
@@ -75,11 +83,12 @@ const SearchAndFilter = ({ onFilterChange }) => {
 
         <select
           id="priceRangeFilter"
-          value={selectedPriceRange}
-          onChange={handlePriceRangeChange}
+          name="priceRange"
+          value={filters.priceRange}
+          onChange={handleChange}
         >
-          <option value="" disabled hidden>
-            {selectedPriceRange || "Filtrera pris"}
+          <option value="">
+            {filters.priceRange || "Filtrera pris"}
           </option>
           <option value="0-200 kr">0-200 kr</option>
           <option value="200-500 kr">200-500 kr</option>
@@ -87,11 +96,12 @@ const SearchAndFilter = ({ onFilterChange }) => {
 
         <select
           id="conditionFilter"
-          value={selectedCondition}
-          onChange={handleConditionChange}
+          name="condition"
+          value={filters.condition}
+          onChange={handleChange}
         >
-          <option value="" disabled hidden>
-            {selectedCondition || "Filtrera skick"}
+          <option value="">
+            {filters.condition || "Filtrera skick"}
           </option>
           <option value="Nyskick">Nyskick</option>
           <option value="Bra skick">Bra skick</option>
@@ -99,11 +109,12 @@ const SearchAndFilter = ({ onFilterChange }) => {
 
         <select
           id="locationFilter"
-          value={selectedLocation}
-          onChange={handleLocationChange}
+          name="location"
+          value={filters.location}
+          onChange={handleChange}
         >
-          <option value="" disabled hidden>
-            {selectedLocation || "Filtrera plats"}
+          <option value="">
+            {filters.location || "Filtrera plats"}
           </option>
           <option value="Hubben">Hubben</option>
           <option value="Biblioteket">Biblioteket</option>
