@@ -1,0 +1,160 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "./Button";
+import "../styles/register-login.css";
+import apiClient from "../api/client"; // Import apiClient
+import querystring from 'querystring'; // Import querystring
+import Cookies from 'js-cookie';
+
+const RegisterLogin = ({ setIsAuthenticated }) => {
+  const [isRegistering, setIsRegistering] = useState(false);
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(""); // State for error messages
+  const [loading, setLoading] = useState(false); // Add a loading state
+
+  const toggleForm = () => {
+    setIsRegistering(!isRegistering);
+    setErrorMessage(""); // Clear error message when toggling form
+  };
+
+  useEffect(() => {
+    let isMounted = true; // Track whether the component is mounted
+
+    // Cleanup function
+    return () => {
+      isMounted = false; // Set isMounted to false when the component unmounts
+    };
+  }, [isRegistering, navigate]); // Add dependencies for useEffect
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    setErrorMessage("");
+    setLoading(true); // Set loading to true
+
+    if (isRegistering) {
+      const confirmPassword = e.target.confirmPassword.value;
+      if (password !== confirmPassword) {
+        setErrorMessage("Passwords do not match");
+        setLoading(false);
+        return;
+      }
+      try {
+        const response = await apiClient.post("/auth/register", {
+          email: email,
+          password: password,
+        });
+
+        if (response.status !== 201) {
+          setErrorMessage("Registration failed");
+          console.error("Registration failed:", response.data);
+          setLoading(false);
+          return;
+        }
+
+        console.log("Registration successful:", response.data);
+        navigate("/login");
+      } catch (error) {
+        // Format the error message
+        const errorDetail = error.response?.data?.detail;
+        let formattedErrorMessage = "Error during registration";
+
+        if (Array.isArray(errorDetail)) {
+          formattedErrorMessage = errorDetail
+            .map((err) => err.msg)
+            .join(", "); // Join error messages
+        } else if (typeof errorDetail === "string") {
+          formattedErrorMessage = errorDetail;
+        }
+
+        setErrorMessage(formattedErrorMessage);
+        console.error("Error during registration:", error);
+      } finally {
+        setLoading(false); // Set loading to false in finally block
+      }
+    } else {
+      try {
+        const data = querystring.stringify({ // Format data as application/x-www-form-urlencoded
+          username: email,
+          password: password,
+        });
+
+        const response = await apiClient.post("/auth/jwt/login", data, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded' // Set the content type
+          }
+        });
+
+        if (response.status !== 200) {
+          setErrorMessage("Login failed");
+          console.error("Login failed:", response.data);
+          setLoading(false);
+          return;
+        }
+
+        const responseData = response.data;
+        console.log("Login successful:", responseData);
+        Cookies.set('access_token', responseData.access_token, { secure: true, sameSite: 'strict' });
+        setIsAuthenticated(true); // Update the authentication state in App.jsx
+        navigate("/");
+      } catch (error) {
+        // Format the error message
+        const errorDetail = error.response?.data?.detail;
+        let formattedErrorMessage = "Error during login";
+
+        if (Array.isArray(errorDetail)) {
+          formattedErrorMessage = errorDetail
+            .map((err) => err.msg)
+            .join(", "); // Join error messages
+        } else if (typeof errorDetail === "string") {
+          formattedErrorMessage = errorDetail;
+        }
+
+        setErrorMessage(formattedErrorMessage);
+        console.error("Error during login:", error);
+      } finally {
+        setLoading(false); // Set loading to false in finally block
+      }
+    }
+  };
+
+  return (
+    <div className="register-login-container">
+      <h2>{isRegistering ? "Register" : "Login"}</h2>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        {isRegistering && (
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm Password:</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              required
+            />
+          </div>
+        )}
+        <Button type="submit" disabled={loading}>
+          {isRegistering ? "Register" : "Login"}
+        </Button>
+      </form>
+      <button onClick={toggleForm}>
+        {isRegistering
+          ? "Already have an account? Login"
+          : "Need an account? Register"}
+      </button>
+    </div>
+  );
+};
+
+export default RegisterLogin;

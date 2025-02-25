@@ -42,6 +42,7 @@ async def get_books(
     price_max: Optional[int] = None,
     location: Optional[str] = None,
     condition: Optional[str] = None,
+    title: Optional[str] = None,
 ):
     """
     Retrieve books with optional filtering.
@@ -55,6 +56,7 @@ async def get_books(
         price_max=price_max,
         location=location,
         condition=condition,
+        title=title 
     )
     return books
 

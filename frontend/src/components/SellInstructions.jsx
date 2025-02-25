@@ -7,7 +7,7 @@ const SellInstructions = () => {
     <div className="buy-tutorial">
       <ol>
         <li>Fyll i fälten nedan för att publicera din bok.</li>
-        <li>Köparen kontaktaktar dig, bestäm mötesplats.</li>
+        <li>Köparen kontaktar dig, bestäm mötesplats.</li>
       </ol>
     </div>
   );

@@ -65,12 +65,15 @@ def CRUDget_books_with_filters(
     price_max: Optional[int] = None,
     location: Optional[str] = None,
     condition: Optional[str] = None,
+    title: Optional[str] = None
 ):
     """
     Retrieve books with optional filtering.
     """
     query = db.query(models.BookDBModel)
 
+    if title: 
+        query = query.filter(models.BookDBModel.title.ilike(f"%{title}%"))
     if course_code:
         query = query.filter(models.BookDBModel.course_code == course_code)
     if price_min:

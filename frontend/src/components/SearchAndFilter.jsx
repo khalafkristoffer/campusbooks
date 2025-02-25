@@ -12,31 +12,13 @@ const SearchAndFilter = ({ onFilterChange }) => {
     searchTerm: "",
   });
 
-  //debouncing the search term
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      setDebouncedSearchTerm(filters.searchTerm);
-    }, 500);
-
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [filters.searchTerm]);
-
   useEffect(() => {
     onFilterChange(filters);
-  }, [debouncedSearchTerm, filters]);
+  }, [filters, onFilterChange]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFilters({ ...filters, [name]: value });
-  };
-
-  const handleSearch = (event) => {
-    const { value } = event.target;
-    setFilters({ ...filters, searchTerm: value });
   };
 
   // Fetch course codes using React Query
@@ -55,7 +37,7 @@ const SearchAndFilter = ({ onFilterChange }) => {
         type="text"
         className="search-bar"
         placeholder="Sök din kursbok..."
-        onChange={handleSearch}
+        onChange={handleChange}
       />
       <div className="filters">
         <select

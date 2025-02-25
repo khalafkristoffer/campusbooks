@@ -1,22 +1,17 @@
 /* Layout for Footer Placement */
 .page-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  .content-wrap {
-    flex: 1;
-  }
-  
-  /* Container: centers overall content */
-  .container {
-    max-width: 1600px;
-    margin: 0 auto;
-    background: transparent; /* Let the blue background show throughout */
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Use vh for full viewport height */
+}
+
+.content-wrap {
+  flex: 1;
+}
+
+/* Container: centers overall content */
+.container {
+  width: 100%;
+  padding: 20px; /* Add padding around the content */
+  box-sizing: border-box; /* Include padding in the width calculation */
+}
