@@ -1,108 +1,134 @@
 /* Books Grid (Home Page) */
-/* Using flexbox to wrap and distribute cards evenly */
 .books-grid {
     display: flex;              
     flex-direction: row;
     flex-wrap: wrap;            
-    justify-content: flex-start; 
-    gap: 15px;                  
-    row-gap: 15px;               
+    justify-content: center; /* Center the books */
+    gap: 20px;                  
     align-items: stretch;        
     width: 100%;
-    row-gap: 15px;
     box-sizing: border-box;
     align-content: flex-start;
-  }
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 15px;
+    max-width: 1600px; /* Control maximum width */
+}
   
-  /* Horizontal Book Card Styles (Home Page Preview) */
-  .book-card-horizontal {
+/* Horizontal Book Card Styles (Home Page Preview) */
+.book-card-horizontal {
     display: flex;
     flex-direction: row;
-    align-items: stretch;  /* Ensure both subcards are the same height */
-    background: #f7f7f7;  /* Light gray background */
-    border: 1px solid #e0e0e0;  /* Gray border */
-    border-radius: 8px;
-    padding: 10px;
+    align-items: stretch;
+    background: #ffffff; /* White background for cleaner look */
+    border: 1px solid #e5e5e5; 
+    border-radius: 10px; /* Slightly more rounded corners */
+    padding: 12px;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     width: 380px;
-    height: 250px;  /* Fixed height for consistency */
+    height: 250px;
     box-sizing: border-box;
     overflow: hidden;
-  }
-  .book-card-horizontal:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  }
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08); /* Subtle shadow by default */
+}
+
+.book-card-horizontal:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.12);
+    border-color: #d0d0d0;
+}
   
-  /* Left Subcard: Image */
-  .book-card-horizontal .book-card-image {
-    flex: 0 0 150px;  /* Fixed width of 150px */
+/* Left Subcard: Image */
+.book-card-horizontal .book-card-image {
+    flex: 0 0 150px;
     height: 100%;
     overflow: hidden;
-  }
-  .book-card-horizontal .book-card-image img {
-    width: 150px;
+    border-radius: 6px;
+}
+
+.book-card-horizontal .book-card-image img {
+    width: 100%;
     height: 100%;
-    object-fit: cover;  /* Fill container; image is cropped if needed */
-    border-radius: 4px;
-  }
+    object-fit: cover;
+    border-radius: 5px;
+}
   
-  /* Right Subcard: Details */
-  .book-card-horizontal .book-card-details {
+/* Right Subcard: Details */
+.book-card-horizontal .book-card-details {
     flex: 1;
-    background-color: #f2f2f2;
-    padding: 10px;
-    margin-left: 10px;
-    border-radius: 4px;
+    background-color: #f7f7f7;
+    padding: 12px;
+    margin-left: 12px;
+    border-radius: 6px;
     display: flex;
     flex-direction: column;
     overflow: visible;
-  }
-  .details-top {
-    min-height: 40px; /* Fixed height for the title area */
-  }
-  .details-bottom {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03) inset;
+}
+
+.details-top {
+    min-height: 40px;
+}
+
+.details-bottom {
     margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-  }
-  .price-group {
+    gap: 4px; /* Slightly increased spacing */
+}
+
+.price-group {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    margin-bottom: 2px;
-  }
-  .other-group {
+    margin-bottom: 6px;
+    padding: 6px;
+    border-radius: 5px;
+    background-color: rgba(25, 118, 210, 0.05);
+}
+
+.other-group {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-  }
+    gap: 3px;
+    padding: 6px;
+    border-radius: 5px;
+}
   
-  /* Book text styling */
-  .book-card-horizontal .book-title {
+/* Book text styling */
+.book-card-horizontal .book-title {
     font-size: 1.2rem;
     font-weight: 600;
     color: #1976d2;
     margin: 0 0 8px 0;
-  }
-  .book-card-horizontal .book-kurskod,
-  .book-card-horizontal .book-condition,
-  .book-card-horizontal .book-price,
-  .book-card-horizontal .book-location {
+    line-height: 1.3;
+}
+
+.book-card-horizontal .book-kurskod,
+.book-card-horizontal .book-condition,
+.book-card-horizontal .book-location {
     font-size: 0.9rem;
-    color: #333;
+    color: #444;
     margin: 0;
-  }
-  .book-card-horizontal .book-price {
-    font-size: 1rem;
+}
+
+.book-card-horizontal .book-price {
+    font-size: 1.1rem;
     font-weight: 600;
-  }
-  .book-card-horizontal .book-original-price {
+    color: #1976d2;
+}
+
+.book-card-horizontal .book-original-price {
     font-size: 0.85rem;
     color: #888;
     text-decoration: line-through;
     margin-left: 0;
-  }
-  
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .book-card-horizontal {
+        width: 100%;
+    }
+}

@@ -21,12 +21,13 @@
     text-align: left;
   }
   .book-detail-left {
-    flex: 1;
-  }
-  .book-detail-left img {
-    width: 100%;
+    display: flex;
+    object-fit: cover;
     border-radius: 8px;
+    height: 400px;
+    width: 240px;
   }
+  
   .book-detail-right {
     flex: 2;
   }

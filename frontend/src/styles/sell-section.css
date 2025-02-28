@@ -1,82 +1,249 @@
 /* Sell Section */
 .sell-section {
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    text-align: center;
-    width: 100%;
-    max-width: 600px;
-    box-sizing: border-box;
-    margin: 20px auto;
-  }
-  .sell-section p {
-    font-size: 1rem;
-    color: #444;
-  }
-  .sell-section h2 {
-    margin-top: 20px;
-    font-size: 1.5rem;
-    color: #333;
-  }
-  .sell-section input {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 10px auto;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  .sell-section .button {
-    margin: 0 auto 15px;
-    display: block;
-  }
-  .sell-button {
-    background-color: #d32f2f;
-    color: #fff;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    transition: transform 0.2s, background-color 0.2s;
-  }
-  .sell-button:hover {
-    background-color: #b71c1c;
-    transform: scale(1.03);
-  }
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  margin: 30px auto;
+  transition: transform 0.2s ease;
+}
 
-  /* Make the select fields in the sell section look like the input fields */
+.sell-section:hover {
+  transform: translateY(-3px);
+}
+
+.sell-section p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.sell-section h2 {
+  margin-top: 10px;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Form controls styling */
 .sell-section input,
-.sell-section select {
+.sell-section select,
+.sell-section textarea {
   display: block;
   width: 100%;
-  padding: 10px;
-  margin: 10px auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px 15px;
+  margin: 15px auto;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
   box-sizing: border-box;
   font-size: 1rem;
   background: #f9f9f9;
   color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
+.sell-section input:focus,
+.sell-section select:focus,
+.sell-section textarea:focus {
+  outline: none;
+  border-color: #4285f4;
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
+
+.sell-description {
+  min-height: 20dvh;
+  max-height: 20dvh;
+  resize: vertical;
+}
+
+/* Button styling */
+.sell-section .button {
+  margin: 25px auto 15px;
+  display: block;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.button-primary {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  transition: background-color 0.3s, transform 0.2s;
+  font-weight: 600;
+}
+
+.button-primary:hover {
+  background-color: #3367d6;
+  transform: translateY(-2px);
+}
+
+.sell-button {
+  background-color: #d32f2f;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: transform 0.2s, background-color 0.2s;
+  margin-top: 10px;
+}
+
+.sell-button:hover {
+  background-color: #b71c1c;
+  transform: scale(1.03);
+}
+
+/* Image preview */
+.sell-section img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Image preview styling */
+.image-preview-container {
+  margin: 20px auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sell-section img.preview-image {
+  max-width: 300px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 3px solid #fff;
+  outline: 1px solid #e0e0e0;
+  margin: 0 auto;
+  transition: transform 0.3s ease;
+}
+
+.sell-section img.preview-image:hover {
+  transform: scale(1.02);
+}
+
+/* File input styling */
+.sell-section .file-input-container {
+  position: relative;
+  width: 100%;
+  margin: 15px auto;
+  text-align: center;
+}
+
+.sell-section input[type="file"] {
+  border: 2px dashed #ccc;
+  padding: 25px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #f0f8ff;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.sell-section input[type="file"]:hover {
+  border-color: #4285f4;
+  background-color: #e6f3ff;
+}
+
+/* Custom file upload styling */
+.custom-file-upload {
+  border: 2px dashed #ccc;
+  display: inline-block;
+  padding: 25px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  background-color: #f0f8ff;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  color: #555;
+  font-size: 1rem;
+}
+
+.custom-file-upload:hover {
+  border-color: #4285f4;
+  background-color: #e6f3ff;
+  color: #4285f4;
+}
+
+.custom-file-upload i {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+.file-selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  border: 2px solid #4285f4;
+  border-radius: 8px;
+  background-color: rgba(66, 133, 244, 0.05);
+  margin: 15px auto;
+}
+
+.file-selected span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+  color: #4285f4;
+}
+
+.change-image-btn {
+  background-color: transparent;
+  border: 1px solid #4285f4;
+  color: #4285f4;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.change-image-btn:hover {
+  background-color: #4285f4;
+  color: white;
+}
+
+/* Buy tutorial section */
 .buy-tutorial {
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    padding: 15px;
-    margin: 20px auto;
-    max-width: 800px;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 0.9rem;
-  }
-  .buy-tutorial ol {
-    margin: 0;
-    padding: 0 20px;
-    list-style-position: inside;
-    text-align: left;
-  }
-  .buy-tutorial li {
-    margin-bottom: 5px;
-  }
+  border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  padding: 25px;
+  margin: 30px auto;
+  max-width: 800px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  font-size: 1rem;
+}
+
+.buy-tutorial h3 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.buy-tutorial ol {
+  margin: 0;
+  padding: 0 20px;
+  list-style-position: inside;
+  text-align: left;
+}
+
+.buy-tutorial li {
+  margin-bottom: 10px;
+  padding: 5px 0;
+}

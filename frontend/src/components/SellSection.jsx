@@ -6,22 +6,25 @@ import apiClient from "../api/client"; // Import apiClient
 import { useQuery } from "@tanstack/react-query"; // Import useQuery
 
 const SellSection = () => {
+  // State remains the same
   const [formData, setFormData] = useState({
     title: "",
+    author: "",
     price: "",
     courseCode: "",
+    description: "",
     condition: "",
     location: "",
     phoneNumber: "",
   });
-  const [image, setImage] = useState(null); // State for the image file
-  const [previewImage, setPreviewImage] = useState(null); // State for image preview
+  const [image, setImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   // Fetch course codes using React Query
   const { isLoading, error, data: course_code } = useQuery({
     queryKey: ["course_code"],
     queryFn: async () => {
-      const response = await apiClient.get("/course_codes/"); // Replace with your actual endpoint
+      const response = await apiClient.get("/course_codes/");
       return response.data;
     },
   });
@@ -37,23 +40,21 @@ const SellSection = () => {
 
     if (!selectedImage.type.startsWith("image/")) {
       alert("Please select an image file.");
-      e.target.value = null; // Clear the input
+      e.target.value = null;
       setImage(null);
       setPreviewImage(null);
       return;
     }
 
     if (selectedImage.size > 5 * 1024 * 1024) {
-      // 5MB limit
       alert("Image size must be less than 5MB.");
-      e.target.value = null; // Clear the input
+      e.target.value = null;
       setImage(null);
       setPreviewImage(null);
       return;
     }
 
     setImage(selectedImage);
-    // Create a preview URL
     if (selectedImage) {
       setPreviewImage(URL.createObjectURL(selectedImage));
     } else {
@@ -69,10 +70,13 @@ const SellSection = () => {
   const handleSubmit = async () => {
     const form = new FormData();
     form.append("title", formData.title);
+    form.append("author", formData.author);
     form.append("price", formData.price);
     form.append("course_code", formData.courseCode);
+    form.append("description", formData.description);
     form.append("condition", formData.condition);
     form.append("location", formData.location);
+    form.append("phone_number", formData.phoneNumber); // Add phone number to the form data
     form.append("image", image); // Append the image file
 
     try {
@@ -85,8 +89,10 @@ const SellSection = () => {
       // Reset form fields after successful submission
       setFormData({
         title: "",
+        author: "",
         price: "",
         courseCode: "",
+        description: "",
         condition: "",
         location: "",
         phoneNumber: "",
@@ -102,6 +108,7 @@ const SellSection = () => {
     <div className="sell-section">
       <h2>Lägg upp din bok</h2>
       <input
+        className = "sell-input"    
         type="text"
         placeholder="Boktitel"
         name="title"
@@ -109,11 +116,28 @@ const SellSection = () => {
         onChange={handleChange}
       />
       <input
+        className = "sell-input"
+        type="text"
+        placeholder="Författare"
+        name="author"
+        value={formData.author}
+        onChange={handleChange}
+      />
+      <input
+        className = "sell-input"
         type="number"
         placeholder="Pris"
         name="price"
         value={formData.price}
         onChange={handleChange}
+      />
+      <textarea
+        className="sell-description"
+        placeholder="Beskrivning"
+        name="description"
+        value={formData.description}
+        onChange={handleChange}
+        rows="4"
       />
       <select
         className="sell-input"
@@ -167,13 +191,47 @@ const SellSection = () => {
         value={formData.phoneNumber}
         onChange={handleChange}
       />
-      <input type="file" accept="image/*" onChange={handleImageChange} /> {/* File input for image */}
+      {/* File input and preview section */}
+      <div className="file-input-container">
+        {!image ? (
+          <>
+            <label htmlFor="book-image-upload" className="custom-file-upload">
+              <i className="fa fa-cloud-upload"></i> Ladda upp bild
+            </label>
+            <input 
+              id="book-image-upload"
+              type="file" 
+              accept="image/*" 
+              onChange={handleImageChange} 
+              style={{ display: 'none' }}
+            />
+          </>
+        ) : (
+          <div className="file-selected">
+            <span>{image.name}</span>
+            <button 
+              type="button" 
+              className="change-image-btn"
+              onClick={() => {
+                setImage(null);
+                setPreviewImage(null);
+              }}
+            >
+              Ta bort bild
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Image preview */}
       {previewImage && (
-        <img
-          src={previewImage}
-          alt="Preview"
-          style={{ width: "300px", marginTop: "10px", height : "500px", objectFit: "cover" }}
-        />
+        <div className="image-preview-container">
+          <img
+            src={previewImage}
+            alt="Book preview"
+            className="preview-image"
+          />
+        </div>
       )}
       <Button className="button-primary" onClick={handleSubmit}>
         ➕ Lägg till boken

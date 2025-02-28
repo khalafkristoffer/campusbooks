@@ -37,6 +37,8 @@ const SearchAndFilter = ({ onFilterChange }) => {
         type="text"
         className="search-bar"
         placeholder="Sök din kursbok..."
+        name="searchTerm"
+        value={filters.searchTerm}
         onChange={handleChange}
       />
       <div className="filters">
@@ -48,19 +50,15 @@ const SearchAndFilter = ({ onFilterChange }) => {
           disabled={isLoading || error}
         >
           <option value="">
-            {filters.courseCode || "Filtrera kurskod"}
+            {filters.courseCode ? "Rensa filter" : "Filtrera kurskod"}
           </option>
-          {isLoading ? (
-            <option disabled>Loading...</option>
-          ) : error ? (
-            <option disabled>Error: {error.message}</option>
-          ) : (
-            courseCodes?.map((course) => (
-              <option key={course.code} value={course.code}>
-                {course.code}
-              </option>
-            ))
-          )}
+          {!isLoading && !error && courseCodes?.map((course) => (
+            <option key={course.code} value={course.code}>
+              {course.code}
+            </option>
+          ))}
+          {isLoading && <option disabled>Loading...</option>}
+          {error && <option disabled>Error: {error.message}</option>}
         </select>
 
         <select
@@ -70,7 +68,7 @@ const SearchAndFilter = ({ onFilterChange }) => {
           onChange={handleChange}
         >
           <option value="">
-            {filters.priceRange || "Filtrera pris"}
+            {filters.priceRange ? "Rensa filter" : "Filtrera pris"}
           </option>
           <option value="0-200 kr">0-200 kr</option>
           <option value="200-500 kr">200-500 kr</option>
@@ -83,7 +81,7 @@ const SearchAndFilter = ({ onFilterChange }) => {
           onChange={handleChange}
         >
           <option value="">
-            {filters.condition || "Filtrera skick"}
+            {filters.condition ? "Rensa filter" : "Filtrera skick"}
           </option>
           <option value="Nyskick">Nyskick</option>
           <option value="Bra skick">Bra skick</option>
@@ -96,7 +94,7 @@ const SearchAndFilter = ({ onFilterChange }) => {
           onChange={handleChange}
         >
           <option value="">
-            {filters.location || "Filtrera plats"}
+            {filters.location ? "Rensa filter" : "Filtrera plats"}
           </option>
           <option value="Hubben">Hubben</option>
           <option value="Biblioteket">Biblioteket</option>

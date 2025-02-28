@@ -8,7 +8,7 @@ async def upload_to_cloudinary(image: UploadFile) -> str:
             contents,
             folder="marketplace_images",
             transformation=[
-                {"width": 300, "height": 500, "crop": "fit", "gravity": "auto"}
+                {"width": 300, "height": 500, "crop": "fill", "gravity": "auto"}
             ]
         )
         url = result.get("secure_url")

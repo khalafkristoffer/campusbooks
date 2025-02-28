@@ -21,7 +21,7 @@ const BookDetails = ({ books }) => {
       </Button>
       <div className="book-detail-container">
         <div className="book-detail-left">
-          <img src={book.image || placeholder} alt={`${book.title} cover`} />
+          <img src={book.image_url || placeholder} alt={`${book.title} cover`} />
         </div>
         <div className="book-detail-right">
           <h1>{book.title}</h1>

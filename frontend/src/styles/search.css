@@ -1,42 +1,299 @@
 /* Search Bar & Filters Container */
 .search-filters-container {
-  width: 80%; /* edit here to crop search bar, please
-  be consistant to keep my life easier bluds */
-  margin: 0 auto 20px; /* Center the container horizontally */
-  padding: 0; /* No extra horizontal padding */
-  box-sizing: border-box
-} 
-  .search-bar {
-    width: 100%;
-    height: 40px;              /* Fixed height */
-    box-sizing: border-box;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    background: #f9f9f9;
-    color: #333;
-    font-family: Helvetica, sans-serif;
-    line-height: 40px;
-  }
-  .filters {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-    justify-content: flex-start; /* Align to the left */
-  }
-  .filters select {
-    padding: 6px 10px;  /* Smaller padding for filter dropdowns */
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #f9f9f9;
-    font-size: 0.8rem;
-    color: #333;
-    font-family: Helvetica, sans-serif;
-    transition: border-color 0.2s;
-  }
-  .filters select:hover {
-    border-color: #1976d2;
+  width: 92%;
+  max-width: 1200px;
+  margin: 0 auto 30px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.search-bar {
+  width: 100%;
+  height: 48px;
+  box-sizing: border-box;
+  margin: 10px 0 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: #ffffff;
+  color: #333;
+  font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+  line-height: 48px;
+  padding: 0 15px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: #4285f4;
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+}
+
+.search-bar::placeholder {
+  color: #888;
+  opacity: 0.8;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+.filters select {
+  padding: 8px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #ffffff;
+  font-size: 0.9rem;
+  color: #444;
+  font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-width: 140px;
+  max-width: 10dvh; /* Limit width to 10% of viewport height */
+  width: auto;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px top 50%;
+  background-size: 10px auto;
+  padding-right: 28px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filters select:hover {
+  border-color: #4285f4;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.filters select:focus {
+  outline: none;
+  border-color: #4285f4;
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
+
+/* Custom styling for active filters */
+.filters select.filter-active {
+  color: #4285f4;
+  font-weight: 500;
+  border-color: #4285f4;
+  background-color: rgba(66, 133, 244, 0.05);
+}
+
+/* Custom dropdown styling */
+.filter-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.filter-button {
+  background-color: white;
+  border: 2px solid #e0e0e0;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 140px;
+  max-width: 10dvh; /* Limit width to 10% of viewport height */
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  color: #444;
+  font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filter-button.filter-active {
+  background-color: rgba(66, 133, 244, 0.05);
+  border-color: #4285f4;
+  color: #4285f4;
+  box-shadow: 0 2px 6px rgba(66, 133, 244, 0.15);
+}
+
+.filter-button:hover {
+  border-color: #4285f4;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.dropdown-arrow {
+  margin-left: 8px;
+  font-size: 10px;
+  transition: transform 0.2s ease;
+}
+
+.filter-active .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  background-color: white;
+  min-width: 180px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  margin-top: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dropdown-content.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.filter-option {
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.9rem;
+}
+
+.filter-option:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.filter-option:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.filter-option:hover {
+  background-color: #f5f8ff;
+}
+
+.filter-option.selected {
+  background-color: rgba(66, 133, 244, 0.1);
+  color: #4285f4;
+  font-weight: 500;
+}
+
+.filter-option.clear-option {
+  color: #d32f2f;
+  border-bottom: 1px solid #f0f0f0;
+  font-weight: 500;
+}
+
+.filter-option.clear-option:hover {
+  background-color: rgba(211, 47, 47, 0.05);
+}
+
+.filter-option.disabled {
+  color: #aaa;
+  cursor: not-allowed;
+  background-color: #f8f8f8;
+}
+
+/* SelectFilter Component Styles */
+.select-filter {
+  position: relative;
+  display: inline-block;
+}
+
+.select-display {
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #ffffff;
+  font-size: 0.9rem;
+  color: #444;
+  font-weight: normal;
+  font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+  position: relative;
+  padding-right: 30px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  min-width: 140px;
+  max-width: 10dvh; /* Limit width to 10% of viewport height */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.select-display.active {
+  border-color: #4285f4;
+  background-color: rgba(66, 133, 244, 0.05);
+  color: #4285f4;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(66, 133, 244, 0.15);
+}
+
+.select-display:hover {
+  border-color: #4285f4;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.select-display.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background-color: #f8f8f8;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.2s ease;
+  color: #666;
+  font-size: 10px;
+}
+
+.select-display.active .select-arrow {
+  transform: translateY(-50%) rotate(180deg);
+  color: #4285f4;
+}
+
+.select-native {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.select-native:disabled {
+  cursor: not-allowed;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .search-filters-container {
+    width: 95%;
   }
   
+  .filters select,
+  .filter-button {
+    width: 100%;
+  }
+  
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
