@@ -6,6 +6,7 @@ import "../styles/header.css";
 
 const Header = ({ setIsAuthenticated }) => {
   const [isAuthenticated, setIsAuth] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     // Check for token in cookies on component mount
@@ -17,6 +18,18 @@ const Header = ({ setIsAuthenticated }) => {
       setIsAuth(false);
       setIsAuthenticated(false); // Update App's state
     }
+    
+    // Add scroll listener for dynamic header
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [setIsAuthenticated]);
 
   const handleLogout = () => {
@@ -26,7 +39,7 @@ const Header = ({ setIsAuthenticated }) => {
   };
 
   return (
-    <header className="header">
+    <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="logo">
         <Link to="/" className="logo-link">
           <h1>ChalmerShelf</h1>
@@ -37,10 +50,14 @@ const Header = ({ setIsAuthenticated }) => {
       </div>
       <div className="header-button">
         {isAuthenticated ? (
-          <button className="login-button" onClick={handleLogout}>Logout</button>
+          <button className="login-button logout" onClick={handleLogout}>
+            Logout
+          </button>
         ) : (
           <Link to="/login">
-            <button className="login-button">Login</button>
+            <button className="login-button">
+              Login
+            </button>
           </Link>
         )}
       </div>

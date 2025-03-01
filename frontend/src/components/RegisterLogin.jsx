@@ -122,20 +122,20 @@ const RegisterLogin = ({ setIsAuthenticated }) => {
 
   return (
     <div className="register-login-container">
-      <h2>{isRegistering ? "Register" : "Login"}</h2>
+      <h2>{isRegistering ? "Create Account" : "Welcome Back"}</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">Email Address</label>
           <input type="email" id="email" name="email" required />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Password</label>
           <input type="password" id="password" name="password" required />
         </div>
         {isRegistering && (
           <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password:</label>
+            <label htmlFor="confirmPassword">Confirm Password</label>
             <input
               type="password"
               id="confirmPassword"
@@ -144,14 +144,22 @@ const RegisterLogin = ({ setIsAuthenticated }) => {
             />
           </div>
         )}
-        <Button type="submit" disabled={loading}>
-          {isRegistering ? "Register" : "Login"}
+        <Button 
+          type="submit"
+          disabled={loading}
+          className="button"
+        >
+          {loading ? (
+            <span className="loading-spinner"></span>
+          ) : (
+            isRegistering ? "Create Account" : "Sign In"
+          )}
         </Button>
       </form>
-      <button onClick={toggleForm}>
+      <button onClick={toggleForm} className="toggle-form-button">
         {isRegistering
-          ? "Already have an account? Login"
-          : "Need an account? Register"}
+          ? "Already have an account? Sign in"
+          : "Need an account? Create one"}
       </button>
     </div>
   );

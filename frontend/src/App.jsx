@@ -134,11 +134,12 @@ function App() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}> {/* Wrap with react-query for caching */}
+    <QueryClientProvider client={queryClient}>
       <Router>
-        <div className="page-container">
+        {/* Header outside the page-container */}
+        <Header setIsAuthenticated={handleSetIsAuthenticated} />
+        <div className="page-container"> 
           <div className="content-wrap">
-            <Header setIsAuthenticated={handleSetIsAuthenticated} /> 
             <div className="container">
               <Routes>
                 <Route

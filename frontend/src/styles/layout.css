@@ -2,16 +2,24 @@
 .page-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Use vh for full viewport height */
+  min-height: 100dvh; /* Use vh for full viewport height */
+  padding-top: 0; /* Remove any top padding */
 }
 
 .content-wrap {
+
   flex: 1;
+  padding: 10px;
+  padding-bottom: 40px; /* Add padding at bottom to ensure content isn't cut off */
 }
 
 /* Container: centers overall content */
 .container {
   width: 100%;
-  padding: 20px; /* Add padding around the content */
-  box-sizing: border-box; /* Include padding in the width calculation */
 }
+
+/* Make sure the footer doesn't overlap content */
+footer {
+  margin-top: auto;
+}
+
