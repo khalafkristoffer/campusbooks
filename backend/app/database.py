@@ -1,9 +1,15 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import os
+from dotenv import load_dotenv
 
 # Keep the async driver
-SQLALCHEMY_DATABASE_URL = "postgresql+asyncpg://postgres:chalmers@localhost/chalmersshelf"
+# import from .env file
+load_dotenv()
+DATABASE_URL = os.getenv("DATABASE_URL")
+SQLALCHEMY_DATABASE_URL = DATABASE_URL
+
 
 # Create async SQLAlchemy engine
 engine = create_async_engine(SQLALCHEMY_DATABASE_URL)

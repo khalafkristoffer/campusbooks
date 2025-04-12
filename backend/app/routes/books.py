@@ -11,10 +11,12 @@ import uuid
 from fastapi_users import schemas
 from pydantic import BaseModel
 from app.models.book import BookDBModel
+from app.core.limiter import limiter
 
 router = APIRouter()
 
 @router.post("/books/", response_model=BookAPIModel)
+@limiter.limit("10/minute")  # Strict limit for creation operations
 async def create_book(
     title: str = Form(...),
     author: str = Form(...),
@@ -41,6 +43,7 @@ async def create_book(
     return created_book
 
 @router.get("/books/", response_model=List[BookAPIModel])
+@limiter.limit("60/minute")  # More generous limit for browsing
 async def get_books(
     db: AsyncSession = Depends(database.get_db),
     skip: int = 0,
@@ -69,6 +72,7 @@ async def get_books(
     return books
 
 @router.get("/books/course/{course_code}", response_model=List[BookAPIModel])
+@limiter.limit("30/minute")
 async def get_books_by_course(course_code: str, db: AsyncSession = Depends(database.get_db)):
     """Get books by course code"""
     books = await CRUDget_books_by_course(db, course_code)
@@ -77,6 +81,7 @@ async def get_books_by_course(course_code: str, db: AsyncSession = Depends(datab
     return books
 
 @router.get("/books/id/{book_id}", response_model=BookAPIModel)
+@limiter.limit("30/minute")
 async def get_book_details(book_id: int, db: AsyncSession = Depends(database.get_db)):
     """Get book details by ID"""
     book = await CRUDget_book(db, book_id)
@@ -85,6 +90,7 @@ async def get_book_details(book_id: int, db: AsyncSession = Depends(database.get
     return book
 
 @router.get("/my-books/", response_model=List[BookAPIModel])
+@limiter.limit("30/minute")
 async def get_my_books(
     db: AsyncSession = Depends(database.get_db),
     current_user: User = Depends(current_active_user)
@@ -94,6 +100,7 @@ async def get_my_books(
     return books
 
 @router.delete("/books/{book_id}")
+@limiter.limit("10/minute")
 async def delete_book(
     book_id: int,
     db: AsyncSession = Depends(database.get_db),
@@ -114,6 +121,7 @@ async def delete_book(
     raise HTTPException(status_code=500, detail="Failed to delete book")
 
 @router.put("/books/{book_id}", response_model=BookAPIModel)
+@limiter.limit("10/minute")
 async def update_book(
     book_id: int,
     update_data: dict,
@@ -138,6 +146,7 @@ class SellerInfo(BaseModel):
     phone_number: Optional[str] = None
 
 @router.get("/books/id/{book_id}/seller-info", response_model=SellerInfo)
+@limiter.limit("30/minute")
 async def get_seller_info(
     book_id: int,
     db: AsyncSession = Depends(database.get_db),
