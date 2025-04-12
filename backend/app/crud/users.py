@@ -1,6 +1,8 @@
 import uuid
 from typing import Optional
-
+import os
+# get env key
+from dotenv import load_dotenv
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import (
@@ -12,7 +14,9 @@ from fastapi_users.db import SQLAlchemyUserDatabase
 
 from app.userDB import User, get_user_db
 
-SECRET = "SECRET"
+load_dotenv()
+# grab secret key from env
+SECRET = os.getenv("SECRET")
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):

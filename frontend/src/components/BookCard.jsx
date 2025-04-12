@@ -6,7 +6,7 @@ import placeholder from "../assets/grudat.jpg";
 
 const BookCard = ({ book }) => {
   return (
-    <Link to={`/books/${book.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+    <Link to={`/books/id/${book.id}`} style={{ textDecoration: "none", color: "inherit" }}>
       <div className="book-card-horizontal">
         <div className="book-card-image">
           <img src={book.image_url || placeholder} alt={`${book.title} cover`} />

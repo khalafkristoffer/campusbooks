@@ -1,30 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import "../styles/register-login.css";
-import apiClient from "../api/client"; // Import apiClient
-import querystring from 'querystring'; // Import querystring
-import Cookies from 'js-cookie';
+import apiClient from "../api/client";
+import querystring from 'querystring';
+import { useAuth } from '../context/AuthContext'; // Import useAuth hook
 
-const RegisterLogin = ({ setIsAuthenticated }) => {
+const RegisterLogin = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState(""); // State for error messages
-  const [loading, setLoading] = useState(false); // Add a loading state
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth(); // Use the login function from AuthContext
 
   const toggleForm = () => {
     setIsRegistering(!isRegistering);
-    setErrorMessage(""); // Clear error message when toggling form
+    setErrorMessage("");
   };
-
-  useEffect(() => {
-    let isMounted = true; // Track whether the component is mounted
-
-    // Cleanup function
-    return () => {
-      isMounted = false; // Set isMounted to false when the component unmounts
-    };
-  }, [isRegistering, navigate]); // Add dependencies for useEffect
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,10 +24,12 @@ const RegisterLogin = ({ setIsAuthenticated }) => {
     const password = e.target.password.value;
 
     setErrorMessage("");
-    setLoading(true); // Set loading to true
+    setLoading(true);
 
     if (isRegistering) {
       const confirmPassword = e.target.confirmPassword.value;
+      const phoneNumber = e.target.phoneNumber?.value || null;
+      
       if (password !== confirmPassword) {
         setErrorMessage("Passwords do not match");
         setLoading(false);
@@ -45,6 +39,7 @@ const RegisterLogin = ({ setIsAuthenticated }) => {
         const response = await apiClient.post("/auth/register", {
           email: email,
           password: password,
+          phone_number: phoneNumber,
         });
 
         if (response.status !== 201) {
@@ -72,18 +67,18 @@ const RegisterLogin = ({ setIsAuthenticated }) => {
         setErrorMessage(formattedErrorMessage);
         console.error("Error during registration:", error);
       } finally {
-        setLoading(false); // Set loading to false in finally block
+        setLoading(false);
       }
     } else {
       try {
-        const data = querystring.stringify({ // Format data as application/x-www-form-urlencoded
+        const data = querystring.stringify({
           username: email,
           password: password,
         });
 
         const response = await apiClient.post("/auth/jwt/login", data, {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded' // Set the content type
+            'Content-Type': 'application/x-www-form-urlencoded'
           }
         });
 
@@ -96,8 +91,10 @@ const RegisterLogin = ({ setIsAuthenticated }) => {
 
         const responseData = response.data;
         console.log("Login successful:", responseData);
-        Cookies.set('access_token', responseData.access_token, { secure: true, sameSite: 'strict' });
-        setIsAuthenticated(true); // Update the authentication state in App.jsx
+        
+        // Use the context's login function instead of setting cookies directly
+        login(responseData.access_token);
+        
         navigate("/");
       } catch (error) {
         // Format the error message
@@ -115,7 +112,7 @@ const RegisterLogin = ({ setIsAuthenticated }) => {
         setErrorMessage(formattedErrorMessage);
         console.error("Error during login:", error);
       } finally {
-        setLoading(false); // Set loading to false in finally block
+        setLoading(false);
       }
     }
   };
@@ -134,15 +131,26 @@ const RegisterLogin = ({ setIsAuthenticated }) => {
           <input type="password" id="password" name="password" required />
         </div>
         {isRegistering && (
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              required
-            />
-          </div>
+          <>
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="phoneNumber">Phone Number (optional)</label>
+              <input
+                type="phonenumber"
+                id="phoneNumber"
+                name="phoneNumber"
+                placeholder="Enter your phone number"
+              />
+            </div>
+          </>
         )}
         <Button 
           type="submit"

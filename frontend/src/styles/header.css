@@ -1,227 +1,190 @@
-/* Header Styles - Enhanced Version */
 .header {
-  width: 100%;
-  height: 70px;
-  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
   color: white;
-  padding: 0 2rem;
-  display: flex;
-  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 0;
-  z-index: 1000;
-  box-shadow: 0 3px 15px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.12);
-  transition: box-shadow 0.3s ease;
+  z-index: 100;
+  transition: all 0.3s ease;
 }
 
-/* Add hover effect to header */
-.header:hover {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2), 0 2px 5px rgba(0,0,0,0.15);
+.header.scrolled {
+  height: 60px;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Logo styling */
-.logo {
-  flex: 0 0 auto; /* Don't allow the logo to shrink */
-  margin-right: 20px;
+.header-content {
   display: flex;
   align-items: center;
-  z-index: 2; /* Keep logo above other elements */
+  justify-content: space-between;
+  height: 70px;
+  transition: height 0.3s ease;
 }
 
-.logo-link {
+.scrolled .header-content {
+  height: 60px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
   text-decoration: none;
   color: white;
-  display: flex;
-  align-items: center;
-  transition: transform 0.2s ease;
-}
-
-.logo-link:hover {
-  transform: scale(1.05);
-}
-
-.logo h1 {
-  font-size: 1.6rem;
   font-weight: 700;
-  margin: 0;
-  letter-spacing: -0.5px;
+  font-size: 1.5rem;
   position: relative;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-/* Add an accent decoration to logo */
-.logo h1:after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 30px;
-  height: 3px;
-  background-color: #ffc107;
-  border-radius: 2px;
-}
-
-/* Subtitle with animation */
-.subtitle {
-  font-size: 0.95rem;
-  font-weight: 400;
-  color: rgba(255,255,255,0.9);
-  margin: 0 auto; /* Center the subtitle */
-  text-align: center;
-  padding: 0.4rem 1rem;
-  border-radius: 25px;
-  background-color: rgba(255,255,255,0.1);
-  backdrop-filter: blur(5px);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  animation: pulse 8s infinite alternate;
-  flex: 0 1 auto; /* Allow subtitle to shrink but not grow */
-  max-width: 50%; /* Default max-width */
 }
 
-.subtitle:hover {
-  background-color: rgba(255,255,255,0.2);
-  transform: scale(1.02);
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  50% {
-    box-shadow: 0 2px 15px rgba(255,255,255,0.2);
-  }
-}
-
-/* Button container */
-.header-button {
-  flex: 0 0 auto; /* Don't allow buttons to shrink */
-  margin-left: auto; /* Push button to the right */
-  position: relative;
-  z-index: 2; /* Keep buttons above other elements */
-}
-
-/* Enhanced login button */
-.login-button {
-  background-color: white;
-  color: #1976d2;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 25px; /* More rounded */
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 
-    0 4px 6px rgba(0, 0, 0, 0.1), 
-    0 1px 3px rgba(0, 0, 0, 0.1),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.05);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
-}
-
-/* Button hover effects */
-.login-button::after {
-  content: "";
+.logo:after {
+  content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -5px;
   left: 0;
+  width: 40%;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.7);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover:after {
+  transform: scaleX(1);
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  position: relative;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.nav-link:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
   width: 100%;
-  height: 0;
-  background: linear-gradient(to top, rgba(25, 118, 210, 0.1), transparent);
-  transition: height 0.3s ease;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
   z-index: -1;
 }
 
-.login-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 
-    0 7px 14px rgba(0, 0, 0, 0.15), 
-    0 3px 6px rgba(0, 0, 0, 0.1);
+.nav-link:hover {
+  transform: translateY(-2px);
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.login-button:hover::after {
-  height: 100%;
+.nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
-.login-button:active {
-  transform: translateY(1px);
+.nav-link.my-books {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: white;
+  color: #2563eb;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+}
+
+.nav-link.my-books:hover {
+  background-color: #f8fafc;
+}
+
+.nav-link.my-books:before {
+  content: '📚';
+  font-size: 0.9em;
+}
+
+.nav-link.login-btn {
+  background-color: white;
+  color: #2563eb;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 8px 16px;
+}
+
+.nav-link.login-btn:hover {
+  background-color: #f8fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+.logout-btn {
+  background-color: white;
+  color: #2563eb;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Add icons to buttons */
-.login-button::before {
-  content: "👤";
-  font-size: 1rem;
-  margin-right: 5px;
+.logout-btn:hover {
+  background-color: #f8fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  text-decoration: none;
 }
 
-/* CLEAN UP MEDIA QUERIES - REMOVE CONFLICTS */
+.logout-btn:active {
+  transform: translateY(1px);
+}
 
-/* Extra small screens - Mobile phones */
-@media (max-width: 480px) {
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
   .header {
-    padding: 0 0.8rem;
+    padding: 0 15px;
+  }
+  
+  .header-content {
     height: 60px;
   }
   
-  .subtitle {
-    display: none; /* Hide subtitle on very small screens */
+  .logo {
+    font-size: 1.3rem;
   }
   
-  .logo h1 {
-    font-size: 1.2rem;
+  .navigation {
+    gap: 10px;
   }
   
-  .login-button {
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
-  }
-}
-
-/* Small screens - Tablets, etc */
-@media (min-width: 481px) and (max-width: 768px) {
-  .header {
-    padding: 0 1rem;
+  .nav-link {
+    padding: 6px 8px;
+    font-size: 0.9rem;
   }
   
-  .subtitle {
-    display: none; /* Hide subtitle on small screens too */
+  .logout-btn {
+    padding: 6px 10px;
+    font-size: 0.9rem;
   }
   
-  .logo h1 {
-    font-size: 1.4rem;
-  }
-}
-
-/* Medium screens */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .subtitle {
-    max-width: 40%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
-/* Large screens */
-@media (min-width: 1025px) and (max-width: 1440px) {
-  .subtitle {
-    max-width: 50%;
-    white-space: nowrap; /* Keep text on one line */
-  }
-}
-
-/* Extra large screens */
-@media (min-width: 1441px) {
-  .subtitle {
-    max-width: 60%;
+  /* Hide emoji on small screens to save space */
+  .nav-link.my-books:before {
+    display: none;
   }
 }

@@ -1,65 +1,53 @@
 // src/components/Header.jsx
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import "../styles/header.css";
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import '../styles/header.css';
+import { useAuth } from '../context/AuthContext';
 
-const Header = ({ setIsAuthenticated }) => {
-  const [isAuthenticated, setIsAuth] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
+const Header = () => {
+  const { isAuthenticated, logout, user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+  
+  // Add scroll effect
   useEffect(() => {
-    // Check for token in cookies on component mount
-    const token = Cookies.get('access_token');
-    if (token) {
-      setIsAuth(true);
-      setIsAuthenticated(true); // Update App's state
-    } else {
-      setIsAuth(false);
-      setIsAuthenticated(false); // Update App's state
-    }
-    
-    // Add scroll listener for dynamic header
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setScrolled(window.scrollY > 20);
     };
     
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [setIsAuthenticated]);
+  }, []);
 
   const handleLogout = () => {
-    Cookies.remove('access_token');
-    setIsAuth(false);
-    setIsAuthenticated(false); // Update App's state
+    logout();
+    navigate('/');
   };
 
   return (
-    <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
-      <div className="logo">
-        <Link to="/" className="logo-link">
-          <h1>ChalmerShelf</h1>
-        </Link>
-      </div>
-      <div className="subtitle">
-        Spara pengar, dela kunskap – Chalmers marknad för begagnad kurslitteratur!
-      </div>
-      <div className="header-button">
-        {isAuthenticated ? (
-          <button className="login-button logout" onClick={handleLogout}>
-            Logout
-          </button>
-        ) : (
-          <Link to="/login">
-            <button className="login-button">
-              Login
-            </button>
+    <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+      <div className="container">
+        <div className="header-content">
+          <Link to="/" className="logo">
+            ChalmerShelf
           </Link>
-        )}
+
+            {isAuthenticated ? (
+              <>
+                <Link to="/profile" className={`nav-link my-books ${location.pathname === '/profile' ? 'active' : ''}`}>
+                  My Books
+                </Link>
+                <button onClick={handleLogout} className="logout-btn">
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link to="/login" className={`nav-link login-btn ${location.pathname === '/login' ? 'active' : ''}`}>
+                Login
+              </Link>
+            )}
+        </div>
       </div>
     </header>
   );

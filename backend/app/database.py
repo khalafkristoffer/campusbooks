@@ -1,21 +1,27 @@
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# change username and password later using environment variables
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:chalmers@localhost/chalmersshelf"
+# Keep the async driver
+SQLALCHEMY_DATABASE_URL = "postgresql+asyncpg://postgres:chalmers@localhost/chalmersshelf"
 
-# Create SQLAlchemy engine
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+# Create async SQLAlchemy engine
+engine = create_async_engine(SQLALCHEMY_DATABASE_URL)
 
-# Create SessionLocal class for database sessions
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# Create async session class
+SessionLocal = sessionmaker(
+    engine, 
+    class_=AsyncSession, 
+    expire_on_commit=False
+)
 
 Base = declarative_base()
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+# Async db dependency
+async def get_db():
+    async with SessionLocal() as session:
+        try:
+            yield session
+        finally:
+            await session.close()
+

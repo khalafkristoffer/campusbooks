@@ -1,22 +1,23 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware 
+from fastapi.middleware.cors import CORSMiddleware
+
+# First, import and register all models
+from app.models import *  # This will import all models in the correct order
+
+# Then import other modules that depend on the models
 from app.routes import books
 from app.routes import courses
 from app.database import Base, engine
+from app.userDB import create_db_and_tables
 from dotenv import load_dotenv
 import os 
 import cloudinary
 from app.core.config import settings
 from fastapi import Depends
-from app.userDB import User, create_db_and_tables
 from app.schemas.users import UserCreate, UserRead, UserUpdate
 from app.crud.users import auth_backend, current_active_user, fastapi_users
 
-
-
 load_dotenv()
-
-
 
 cloudinary.config(
     cloud_name=os.getenv("dbusername"),
@@ -42,11 +43,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-Base.metadata.create_all(bind=engine)
+@app.on_event("startup")
+async def startup():
+    async with engine.begin() as conn:
+        # Uncomment this line if you want to drop all tables first
+        # await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
+    
+    # Fix the foreign key constraint issue
 
 app.include_router(books.router)
 app.include_router(courses.router)
-
 
 #userauth 
 
@@ -74,13 +81,14 @@ app.include_router(
     tags=["users"],
 )
 
-
 @app.get("/authenticated-route")
 async def authenticated_route(user: User = Depends(current_active_user)):
     return {"message": f"Hello {user.email}!"}
 
 
+# remove on deployment
+
 @app.on_event("startup")
-async def on_startup():
-    # Not needed if you setup a migration system like Alembic
-    await create_db_and_tables()
+async def startup():
+    async with engine.begin() as conn:
+        await create_db_and_tables()

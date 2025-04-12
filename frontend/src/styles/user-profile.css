@@ -1,0 +1,117 @@
+.user-profile {
+  padding: 20px;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 20px;
+  color: #555;
+}
+
+.no-books {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.my-books-list {
+  margin-top: 20px;
+}
+
+.my-book-card {
+  display: flex;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.book-image {
+  width: 120px;
+  height: 160px;
+  margin-right: 20px;
+  overflow: hidden;
+}
+
+.book-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-info {
+  flex: 1;
+}
+
+.book-info h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.book-info p {
+  margin: 7px 0;
+  color: #555;
+}
+
+.phone-number {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  color: #555;
+}
+
+.phone-number-icon {
+  margin-right: 5px;
+  color: #3498db;
+}
+
+.book-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.view-link {
+  color: #3498db;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background-color: #f0f8ff;
+}
+
+.delete-button-container {
+  position: relative;
+}
+
+.delete-button {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #ff5252;
+}
+
+.delete-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin-left: 5px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

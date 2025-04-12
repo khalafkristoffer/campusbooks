@@ -230,6 +230,38 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
 }
 
+/* Add these styles to your existing book-detail.css file */
+
+.contact-info-box {
+  margin-top: 20px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #1976d2;
+}
+
+.contact-info-box h3 {
+  margin-top: 0;
+  color: #1976d2;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.contact-info-box .info-item {
+  background-color: white;
+}
+
+.contact-info-box .info-value a {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-info-box .info-value a:hover {
+  text-decoration: underline;
+}
+
 /* Responsive styles */
 @media (max-width: 900px) {
   .book-detail-container {

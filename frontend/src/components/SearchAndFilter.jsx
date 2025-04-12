@@ -42,7 +42,7 @@ const SearchAndFilter = ({ onFilterChange }) => {
         onChange={handleChange}
       />
       <div className="filters">
-        <select
+        <select 
           id="courseCodeFilter"
           name="courseCode"
           value={filters.courseCode}

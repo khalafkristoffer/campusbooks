@@ -15,7 +15,7 @@ const SellSection = () => {
     description: "",
     condition: "",
     location: "",
-    phoneNumber: "",
+    phone_number: "",
   });
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
@@ -67,7 +67,15 @@ const SellSection = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Basic validation
+    if (!formData.title || !formData.author || !formData.price || !formData.courseCode || 
+        !formData.condition || !formData.location || !image) {
+      alert("Please fill in all required fields and upload an image");
+      return;
+    }
+
     const form = new FormData();
     form.append("title", formData.title);
     form.append("author", formData.author);
@@ -76,17 +84,21 @@ const SellSection = () => {
     form.append("description", formData.description);
     form.append("condition", formData.condition);
     form.append("location", formData.location);
-    form.append("phone_number", formData.phoneNumber); // Add phone number to the form data
-    form.append("image", image); // Append the image file
+    
+    // Handle phone number (include it even if empty)
+    form.append("image", image);
 
     try {
+      // Make sure apiClient includes authentication headers
       const response = await apiClient.post("/books/", form, {
         headers: {
-          "Content-Type": "multipart/form-data", // Important for file uploads
+          "Content-Type": "multipart/form-data",
+          // Authentication headers should be automatically included by your apiClient
         },
       });
       console.log("Book created:", response.data);
-      // Reset form fields after successful submission
+      // Reset form and show success message
+      alert("Book successfully added!");
       setFormData({
         title: "",
         author: "",
@@ -95,12 +107,12 @@ const SellSection = () => {
         description: "",
         condition: "",
         location: "",
-        phoneNumber: "",
       });
       setImage(null);
-      setPreviewImage(null); // Clear the preview image
+      setPreviewImage(null);
     } catch (error) {
       console.error("Error creating book:", error);
+      alert("Failed to add book. Please try again.");
     }
   };
 
@@ -184,13 +196,7 @@ const SellSection = () => {
         <option value="Chalmers Café">Chalmers Café</option>
         <option value="Doesn't matter">-</option>
       </select>
-      <input
-        type="text"
-        placeholder="Phone number"
-        name="phoneNumber"
-        value={formData.phoneNumber}
-        onChange={handleChange}
-      />
+      
       {/* File input and preview section */}
       <div className="file-input-container">
         {!image ? (

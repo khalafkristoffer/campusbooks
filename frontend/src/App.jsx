@@ -1,6 +1,6 @@
 // src/App.jsx
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Cookies from 'js-cookie'; // Import js-cookie
 import Header from "./components/Header";
 import Button from "./components/Button";
@@ -12,8 +12,10 @@ import SellSection from "./components/SellSection";
 import BookDetails from "./components/BookDetails";
 import Footer from "./components/Footer";
 import RegisterLogin from "./components/RegisterLogin";
+import UserProfile from "./components/UserProfile"; // Import the new UserProfile component
 import { getAllBooks } from "./api/books";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // Import QueryClient and QueryClientProvider
+import { AuthProvider } from "./context/AuthContext"; // Import AuthProvider
 // Import all modularized style files
 import "./styles/global.css";
 import "./styles/layout.css";
@@ -26,9 +28,19 @@ import "./styles/book-detail.css";
 import "./styles/footer.css";
 import "./styles/tutorial.css";
 import "./styles/register-login.css";
+import "./styles/user-profile.css"; // Import new user profile styles
 import apiClient from "./api/client";
 
 const queryClient = new QueryClient(); // Create a QueryClient instance
+
+// Protected route component
+const ProtectedRoute = ({ children }) => {
+  const token = Cookies.get('access_token');
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+  return children;
+};
 
 function HomePage({ isSeller, setIsSeller, books, onFilterChange }) {
   return (
@@ -135,32 +147,42 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Router>
-        {/* Header outside the page-container */}
-        <Header setIsAuthenticated={handleSetIsAuthenticated} />
-        <div className="page-container"> 
-          <div className="content-wrap">
-            <div className="container">
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <HomePage
-                      isSeller={isSeller}
-                      setIsSeller={setIsSeller}
-                      books={books}
-                      onFilterChange={handleFilterChange}
-                    />
-                  }
-                />
-                <Route path="/books/:id" element={<BookDetails books={books} />} />
-                <Route path="/login" element={<RegisterLogin setIsAuthenticated={handleSetIsAuthenticated} />} />
-              </Routes>
+      <AuthProvider>
+        <Router>
+          {/* Header outside the page-container */}
+          <Header setIsAuthenticated={handleSetIsAuthenticated} />
+          <div className="page-container"> 
+            <div className="content-wrap">
+              <div className="container">
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <HomePage
+                        isSeller={isSeller}
+                        setIsSeller={setIsSeller}
+                        books={books}
+                        onFilterChange={handleFilterChange}
+                      />
+                    }
+                  />
+                  <Route path="/books/id/:id" element={<BookDetails />} />
+                  <Route path="/login" element={<RegisterLogin setIsAuthenticated={handleSetIsAuthenticated} />} />
+                  <Route 
+                    path="/profile" 
+                    element={
+                      <ProtectedRoute>
+                        <UserProfile />
+                      </ProtectedRoute>
+                    } 
+                  />
+                </Routes>
+              </div>
             </div>
+            <Footer />
           </div>
-          <Footer />
-        </div>
-      </Router>
+        </Router>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
