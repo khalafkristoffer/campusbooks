@@ -22,9 +22,20 @@ async def CRUDcreate_book(db, book: BookCreate, image, user_id):
 
 async def CRUDget_book(db, book_id: int):
     """Get a book by its ID"""
-    stmt = select(BookDBModel).where(BookDBModel.id == book_id)
+    # Use explicit column selection to avoid created_at if it's not in the database yet
+    stmt = select(
+        BookDBModel.id,
+        BookDBModel.title,
+        BookDBModel.author,
+        BookDBModel.price,
+        BookDBModel.description,
+        BookDBModel.condition,
+        BookDBModel.course_code,
+        BookDBModel.image_url,
+        BookDBModel.user_id
+    ).where(BookDBModel.id == book_id)
     result = await db.execute(stmt)
-    return result.scalar_one_or_none()
+    return result.mappings().one_or_none()
 
 async def CRUDget_books_with_filters(
     db,
@@ -39,7 +50,18 @@ async def CRUDget_books_with_filters(
     """
     Retrieve books with optional filtering.
     """
-    stmt = select(BookDBModel).offset(skip).limit(limit)
+    # Use explicit column selection to avoid created_at if it's not in the database yet
+    stmt = select(
+        BookDBModel.id,
+        BookDBModel.title,
+        BookDBModel.author,
+        BookDBModel.price,
+        BookDBModel.description,
+        BookDBModel.condition,
+        BookDBModel.course_code,
+        BookDBModel.image_url,
+        BookDBModel.user_id
+    ).offset(skip).limit(limit)
     
     # Add filters
     if course_code:
@@ -54,19 +76,41 @@ async def CRUDget_books_with_filters(
         stmt = stmt.where(BookDBModel.title.ilike(f"%{title}%"))
         
     result = await db.execute(stmt)
-    return result.scalars().all()
+    return result.mappings().all()
 
 async def CRUDget_books_by_course(db, course_code: str):
     """Get all books for a specific course"""
-    stmt = select(BookDBModel).where(BookDBModel.course_code == course_code)
+    # Use explicit column selection to avoid created_at if it's not in the database yet
+    stmt = select(
+        BookDBModel.id,
+        BookDBModel.title,
+        BookDBModel.author,
+        BookDBModel.price,
+        BookDBModel.description,
+        BookDBModel.condition,
+        BookDBModel.course_code,
+        BookDBModel.image_url,
+        BookDBModel.user_id
+    ).where(BookDBModel.course_code == course_code)
     result = await db.execute(stmt)
-    return result.scalars().all()
+    return result.mappings().all()
 
 async def CRUDget_books_by_user(db, user_id):
     """Get all books owned by a specific user"""
-    stmt = select(BookDBModel).where(BookDBModel.user_id == user_id)
+    # Use explicit column selection to avoid created_at if it's not in the database yet
+    stmt = select(
+        BookDBModel.id,
+        BookDBModel.title,
+        BookDBModel.author,
+        BookDBModel.price,
+        BookDBModel.description,
+        BookDBModel.condition,
+        BookDBModel.course_code,
+        BookDBModel.image_url,
+        BookDBModel.user_id
+    ).where(BookDBModel.user_id == user_id)
     result = await db.execute(stmt)
-    return result.scalars().all()
+    return result.mappings().all()
 
 async def CRUDdelete_book(db, book_id: int):
     """Delete a book from the database"""
@@ -86,18 +130,51 @@ async def CRUDupdate_book(db, book_id: int, update_data: dict):
 
 async def CRUDget_books(db: Session, skip: int = 0, limit: int = 10):
     """Get a list of books with pagination"""
-    stmt = select(BookDBModel).offset(skip).limit(limit)
+    # Use explicit column selection to avoid created_at if it's not in the database yet
+    stmt = select(
+        BookDBModel.id,
+        BookDBModel.title,
+        BookDBModel.author,
+        BookDBModel.price,
+        BookDBModel.description,
+        BookDBModel.condition,
+        BookDBModel.course_code,
+        BookDBModel.image_url,
+        BookDBModel.user_id
+    ).offset(skip).limit(limit)
     result = await db.execute(stmt)
-    return result.scalars().all()
+    return result.mappings().all()
 
 async def CRUDsearch_books_by_title(db: Session, query: str):
     """Search books by title (case-insensitive)"""
-    stmt = select(BookDBModel).where(BookDBModel.title.ilike(f"%{query}%"))
+    # Use explicit column selection to avoid created_at if it's not in the database yet
+    stmt = select(
+        BookDBModel.id,
+        BookDBModel.title,
+        BookDBModel.author,
+        BookDBModel.price,
+        BookDBModel.description,
+        BookDBModel.condition,
+        BookDBModel.course_code,
+        BookDBModel.image_url,
+        BookDBModel.user_id
+    ).where(BookDBModel.title.ilike(f"%{query}%"))
     result = await db.execute(stmt)
-    return result.scalars().all()
+    return result.mappings().all()
 
 async def CRUDget_books_by_price_range(db: Session, min_price: int, max_price: int):
     """Get books within a specified price range"""
-    stmt = select(BookDBModel).where(BookDBModel.price >= min_price, BookDBModel.price <= max_price)
+    # Use explicit column selection to avoid created_at if it's not in the database yet
+    stmt = select(
+        BookDBModel.id,
+        BookDBModel.title,
+        BookDBModel.author,
+        BookDBModel.price,
+        BookDBModel.description,
+        BookDBModel.condition,
+        BookDBModel.course_code,
+        BookDBModel.image_url,
+        BookDBModel.user_id
+    ).where(BookDBModel.price >= min_price, BookDBModel.price <= max_price)
     result = await db.execute(stmt)
-    return result.scalars().all()
+    return result.mappings().all()
