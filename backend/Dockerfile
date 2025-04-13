@@ -2,21 +2,19 @@ FROM python:3.13-alpine
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Install system dependencies using Alpine's apk instead of apt-get
+RUN apk add --no-cache \
     gcc \
+    musl-dev \
     postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
+    postgresql-dev
 
-# Copy requirements first for better layer caching
+# Copy and install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application
+# Copy the application code
 COPY . .
 
-# Set environment variable
-ENV PYTHONPATH=/app
-
-# Run the application with Uvicorn
-CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Command to run the application
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
