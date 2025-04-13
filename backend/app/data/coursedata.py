@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import select
 import os
 from dotenv import load_dotenv
+import json
 
 # Adjust the import path based on your project structure
 from app.models.course import CourseDBModel
@@ -13,7 +14,11 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 #import from coursecodes.json in same folder
 
-FIXED_COURSE_CODES = os.path.join(os.path.dirname(__file__), "coursecodes.json")
+FIXED_COURSE_CODES_FILE = os.path.join(os.path.dirname(__file__), "coursecodes.json")
+
+# Load course codes from the JSON file
+with open(FIXED_COURSE_CODES_FILE, 'r') as f:
+    FIXED_COURSE_CODES = json.load(f)
 # -----------------------------------------
 
 async def seed_data():
@@ -28,17 +33,17 @@ async def seed_data():
             skipped_count = 0
 
             for code in FIXED_COURSE_CODES:
-                # Check if the course code already exists
+                # Check if the course code already exists - use 'code' column name instead of 'course_code'
                 result = await session.execute(
-                    select(CourseDBModel).filter_by(course_code=code)
+                    select(CourseDBModel).filter_by(code=code)
                 )
                 existing_course = result.scalars().first()
 
                 if existing_course:
                     skipped_count += 1
                 else:
-                    # Create and add the new course code
-                    new_course = CourseDBModel(course_code=code)
+                    # Create and add the new course code - use 'code' instead of 'course_code'
+                    new_course = CourseDBModel(code=code)
                     session.add(new_course)
                     added_count += 1
 
