@@ -1,26 +1,25 @@
 // src/App.jsx
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; // Remove React import
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Cookies from 'js-cookie'; // Import js-cookie
+import Cookies from 'js-cookie';
 import Header from "./components/Header";
 import Button from "./components/Button";
 import BuyInstructions from "./components/BuyInstructions";
-import SellInstructions from "./components/SellInstructions"; // New component for seller instructions
+import SellInstructions from "./components/SellInstructions";
 import SearchAndFilter from "./components/SearchAndFilter";
 import BookList from "./components/BookList";
 import SellSection from "./components/SellSection";
-import BookDetails from "./components/BookDetails"; // Make sure the import matches the component name
+import BookDetails from "./components/BookDetails";
 import Footer from "./components/Footer";
 import RegisterLogin from "./components/RegisterLogin";
-import UserProfile from "./components/UserProfile"; // Import the new UserProfile component
+import UserProfile from "./components/UserProfile";
 // Import new footer page components
 import AboutPage from "./components/AboutPage";
 import PrivacyPolicyPage from "./components/PrivacyPolicyPage";
 import TermsPage from "./components/TermsPage";
 import CookiesPage from "./components/CookiesPage";
-import { getAllBooks } from "./api/books";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // Import QueryClient and QueryClientProvider
-import { AuthProvider, useAuth } from "./context/AuthContext"; // Import AuthProvider and useAuth
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider, useAuth } from "./context/AuthContext";
 // Import all modularized style files
 import "./styles/global.css";
 import "./styles/layout.css";

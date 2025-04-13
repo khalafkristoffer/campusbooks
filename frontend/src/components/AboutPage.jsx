@@ -1,5 +1,5 @@
 // src/components/AboutPage.jsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/global.css';
 import '../styles/about-page.css';
 import { FaGithub } from 'react-icons/fa';
@@ -52,7 +52,7 @@ const AboutPage = () => {
       setContributors(updatedContributors);
     };
     fetchAvatars();
-  }, []);
+  }, [contributors]);
 
   return (
     <div className="container page-content">
