@@ -1,35 +1,91 @@
-.user-profile {
-  padding: 20px;
+/* User Profile - Modern minimal style */
+
+.user-profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.user-profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.user-profile-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.add-book-button {
+  padding: 0.75rem 1.5rem;
+}
+
+.loading-container, .error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
 }
 
 .loading, .error {
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: #f8f9fa;
   text-align: center;
-  padding: 20px;
   color: #555;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.error {
+  border-left: 4px solid #ff6b6b;
 }
 
 .no-books {
   text-align: center;
-  margin: 40px 0;
-}
-
-.my-books-list {
-  margin-top: 20px;
-}
-
-.my-book-card {
-  display: flex;
-  margin-bottom: 20px;
-  padding: 15px;
+  margin: 4rem 0;
+  padding: 3rem;
+  background-color: #f8f9fa;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.no-books p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+/* Book grid layout */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* Individual book card */
+.book-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
   background-color: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .book-image {
-  width: 120px;
-  height: 160px;
-  margin-right: 20px;
+  height: 220px;
   overflow: hidden;
 }
 
@@ -40,78 +96,109 @@
 }
 
 .book-info {
+  padding: 1.5rem;
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .book-info h3 {
   margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
   color: #333;
+  font-size: 1.25rem;
+  line-height: 1.4;
 }
 
-.book-info p {
-  margin: 7px 0;
-  color: #555;
+.book-course {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
 }
 
-.phone-number {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-  color: #555;
-}
-
-.phone-number-icon {
-  margin-right: 5px;
-  color: #3498db;
+.book-price {
+  font-weight: 600;
+  color: #2e7d32;
+  font-size: 1.25rem;
+  margin: 0.5rem 0 1rem;
 }
 
 .book-actions {
-  margin-top: 15px;
+  margin-top: auto;
   display: flex;
-  gap: 10px;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eaeaea;
 }
 
 .view-link {
-  color: #3498db;
-  text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 4px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 6px;
   background-color: #f0f8ff;
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
 }
 
-.delete-button-container {
-  position: relative;
+.view-link:hover {
+  background-color: #bbdefb;
 }
 
 .delete-button {
-  background-color: #ff6b6b;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #f44336;
+  border: 1px solid #f44336;
   cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .delete-button:hover {
-  background-color: #ff5252;
+  background-color: #f44336;
+  color: white;
 }
 
 .delete-button:disabled {
-  background-color: #ccc;
+  background-color: #f5f5f5;
+  color: #aaa;
+  border-color: #ddd;
   cursor: not-allowed;
 }
 
-.loading-spinner {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border: 2px solid rgba(255,255,255,.3);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 1s ease-in-out infinite;
-  margin-left: 5px;
+@media (max-width: 768px) {
+  .user-profile-container {
+    padding: 1rem;
+  }
+  
+  .user-profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .book-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+@media (min-width: 769px) and (max-width: 1024px) {
+  .book-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
