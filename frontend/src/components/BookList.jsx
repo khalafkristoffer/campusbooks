@@ -12,7 +12,7 @@ const BookList = ({ books }) => {
   return (
     <div className="books-grid">
       {books.map((book) => (
-        <Link key={book.id} to={`/book/${book.id}`} className="book-link">
+        <Link key={book.id} to={`/books/id/${book.id}`} className="book-link">
           <BookCard book={book} />
         </Link>
       ))}
