@@ -16,7 +16,7 @@ class BookDBModel(Base):
     condition = Column(String, nullable=False)
     course_code = Column(String, ForeignKey("courses.code"))
     image_url = Column(String, nullable=True)
-    user_id = Column(String, ForeignKey("users.id"))
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
     created_at = Column(DateTime, default=datetime.utcnow)
     
     owner = relationship("User", back_populates="books")
