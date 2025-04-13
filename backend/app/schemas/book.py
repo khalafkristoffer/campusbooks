@@ -16,7 +16,7 @@ class BookCreate(BookBase):
 
 class BookAPIModel(BookBase):
     id: int
-    user_id: str
+    user_id: uuid.UUID  # Changed from str to uuid.UUID
     image_url: Optional[str] = None
     created_at: datetime
     

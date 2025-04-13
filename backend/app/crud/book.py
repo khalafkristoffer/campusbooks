@@ -22,7 +22,7 @@ async def CRUDcreate_book(db, book: BookCreate, image, user_id):
 
 async def CRUDget_book(db, book_id: int):
     """Get a book by its ID"""
-    # Use explicit column selection to avoid created_at if it's not in the database yet
+    # Now include created_at field
     stmt = select(
         BookDBModel.id,
         BookDBModel.title,
@@ -32,7 +32,8 @@ async def CRUDget_book(db, book_id: int):
         BookDBModel.condition,
         BookDBModel.course_code,
         BookDBModel.image_url,
-        BookDBModel.user_id
+        BookDBModel.user_id,
+        BookDBModel.created_at
     ).where(BookDBModel.id == book_id)
     result = await db.execute(stmt)
     return result.mappings().one_or_none()
@@ -50,7 +51,7 @@ async def CRUDget_books_with_filters(
     """
     Retrieve books with optional filtering.
     """
-    # Use explicit column selection to avoid created_at if it's not in the database yet
+    # Now include created_at field
     stmt = select(
         BookDBModel.id,
         BookDBModel.title,
@@ -60,7 +61,8 @@ async def CRUDget_books_with_filters(
         BookDBModel.condition,
         BookDBModel.course_code,
         BookDBModel.image_url,
-        BookDBModel.user_id
+        BookDBModel.user_id,
+        BookDBModel.created_at
     ).offset(skip).limit(limit)
     
     # Add filters
@@ -80,7 +82,7 @@ async def CRUDget_books_with_filters(
 
 async def CRUDget_books_by_course(db, course_code: str):
     """Get all books for a specific course"""
-    # Use explicit column selection to avoid created_at if it's not in the database yet
+    # Now include created_at field
     stmt = select(
         BookDBModel.id,
         BookDBModel.title,
@@ -90,14 +92,15 @@ async def CRUDget_books_by_course(db, course_code: str):
         BookDBModel.condition,
         BookDBModel.course_code,
         BookDBModel.image_url,
-        BookDBModel.user_id
+        BookDBModel.user_id,
+        BookDBModel.created_at
     ).where(BookDBModel.course_code == course_code)
     result = await db.execute(stmt)
     return result.mappings().all()
 
 async def CRUDget_books_by_user(db, user_id):
     """Get all books owned by a specific user"""
-    # Use explicit column selection to avoid created_at if it's not in the database yet
+    # Now include created_at field
     stmt = select(
         BookDBModel.id,
         BookDBModel.title,
@@ -107,7 +110,8 @@ async def CRUDget_books_by_user(db, user_id):
         BookDBModel.condition,
         BookDBModel.course_code,
         BookDBModel.image_url,
-        BookDBModel.user_id
+        BookDBModel.user_id,
+        BookDBModel.created_at
     ).where(BookDBModel.user_id == user_id)
     result = await db.execute(stmt)
     return result.mappings().all()
@@ -130,7 +134,7 @@ async def CRUDupdate_book(db, book_id: int, update_data: dict):
 
 async def CRUDget_books(db: Session, skip: int = 0, limit: int = 10):
     """Get a list of books with pagination"""
-    # Use explicit column selection to avoid created_at if it's not in the database yet
+    # Now include created_at field
     stmt = select(
         BookDBModel.id,
         BookDBModel.title,
@@ -140,14 +144,15 @@ async def CRUDget_books(db: Session, skip: int = 0, limit: int = 10):
         BookDBModel.condition,
         BookDBModel.course_code,
         BookDBModel.image_url,
-        BookDBModel.user_id
+        BookDBModel.user_id,
+        BookDBModel.created_at
     ).offset(skip).limit(limit)
     result = await db.execute(stmt)
     return result.mappings().all()
 
 async def CRUDsearch_books_by_title(db: Session, query: str):
     """Search books by title (case-insensitive)"""
-    # Use explicit column selection to avoid created_at if it's not in the database yet
+    # Now include created_at field
     stmt = select(
         BookDBModel.id,
         BookDBModel.title,
@@ -157,14 +162,15 @@ async def CRUDsearch_books_by_title(db: Session, query: str):
         BookDBModel.condition,
         BookDBModel.course_code,
         BookDBModel.image_url,
-        BookDBModel.user_id
+        BookDBModel.user_id,
+        BookDBModel.created_at
     ).where(BookDBModel.title.ilike(f"%{query}%"))
     result = await db.execute(stmt)
     return result.mappings().all()
 
 async def CRUDget_books_by_price_range(db: Session, min_price: int, max_price: int):
     """Get books within a specified price range"""
-    # Use explicit column selection to avoid created_at if it's not in the database yet
+    # Now include created_at field
     stmt = select(
         BookDBModel.id,
         BookDBModel.title,
@@ -174,7 +180,8 @@ async def CRUDget_books_by_price_range(db: Session, min_price: int, max_price: i
         BookDBModel.condition,
         BookDBModel.course_code,
         BookDBModel.image_url,
-        BookDBModel.user_id
+        BookDBModel.user_id,
+        BookDBModel.created_at
     ).where(BookDBModel.price >= min_price, BookDBModel.price <= max_price)
     result = await db.execute(stmt)
     return result.mappings().all()
