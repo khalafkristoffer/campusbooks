@@ -1,23 +1,24 @@
 from pydantic import BaseModel, HttpUrl, Field
 import uuid
 from typing import Optional
+from datetime import datetime
 
 class BookBase(BaseModel):
     title: str
     author: str
-    course_code: str
-    description: str
-    condition: str
     price: int
-    location: str
+    description: str
+    course_code: str
+    condition: str
 
 class BookCreate(BookBase):
     pass
 
 class BookAPIModel(BookBase):
     id: int
+    user_id: str
     image_url: Optional[str] = None
-    user_id: uuid.UUID # owner id 
-
+    created_at: datetime
+    
     class Config:
-        from_attributes = True
+        orm_mode = True

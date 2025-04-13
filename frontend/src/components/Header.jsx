@@ -29,24 +29,31 @@ const Header = () => {
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="container">
         <div className="header-content">
-          <Link to="/" className="logo">
-            ChalmerShelf
-          </Link>
+          <div className="header-left">
+            <Link to="/" className="logo">
+              Campus Books
+            </Link>
+          </div>
 
+          {isAuthenticated && (
+            <div className="header-center">
+              <Link to="/profile" className={`nav-link my-books ${location.pathname === '/profile' ? 'active' : ''}`}>
+                My Books
+              </Link>
+            </div>
+          )}
+
+          <div className="header-right">
             {isAuthenticated ? (
-              <>
-                <Link to="/profile" className={`nav-link my-books ${location.pathname === '/profile' ? 'active' : ''}`}>
-                  My Books
-                </Link>
-                <button onClick={handleLogout} className="logout-btn">
-                  Logout
-                </button>
-              </>
+              <button onClick={handleLogout} className="logout-btn">
+                Logout
+              </button>
             ) : (
               <Link to="/login" className={`nav-link login-btn ${location.pathname === '/login' ? 'active' : ''}`}>
                 Login
               </Link>
             )}
+          </div>
         </div>
       </div>
     </header>

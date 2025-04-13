@@ -1,0 +1,61 @@
+/* src/styles/policy-pages.css */
+/* Common styling for Privacy, Terms, and Cookies pages */
+
+.policy-section {
+  margin-bottom: 2.5rem;
+}
+
+.policy-section h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #2c69af;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.policy-section h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+  margin: 1.5rem 0 0.8rem;
+}
+
+.policy-section p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.policy-section ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.policy-section li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+.policy-section a {
+  color: #2c69af;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.policy-section a:hover {
+  text-decoration: underline;
+}
+
+.introduction, .last-updated {
+  font-style: italic;
+  color: #666;
+}
+
+.last-updated {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  text-align: right;
+}

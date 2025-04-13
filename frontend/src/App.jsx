@@ -9,13 +9,18 @@ import SellInstructions from "./components/SellInstructions"; // New component f
 import SearchAndFilter from "./components/SearchAndFilter";
 import BookList from "./components/BookList";
 import SellSection from "./components/SellSection";
-import BookDetails from "./components/BookDetails";
+import BookDetails from "./components/BookDetails"; // Make sure the import matches the component name
 import Footer from "./components/Footer";
 import RegisterLogin from "./components/RegisterLogin";
 import UserProfile from "./components/UserProfile"; // Import the new UserProfile component
+// Import new footer page components
+import AboutPage from "./components/AboutPage";
+import PrivacyPolicyPage from "./components/PrivacyPolicyPage";
+import TermsPage from "./components/TermsPage";
+import CookiesPage from "./components/CookiesPage";
 import { getAllBooks } from "./api/books";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // Import QueryClient and QueryClientProvider
-import { AuthProvider } from "./context/AuthContext"; // Import AuthProvider
+import { AuthProvider, useAuth } from "./context/AuthContext"; // Import AuthProvider and useAuth
 // Import all modularized style files
 import "./styles/global.css";
 import "./styles/layout.css";
@@ -44,17 +49,17 @@ const ProtectedRoute = ({ children }) => {
 
 function HomePage({ isSeller, setIsSeller, books, onFilterChange }) {
   return (
-    <div> 
+    <div>
       <div className="toggle-buttons">
         <Button
           className={isSeller ? "button-secondary" : "button-primary"}
-          onClick={() => setIsSeller(false)}
+          onClick={() => setIsSeller(false)} // This now calls setSellerMode(false) via auth
         >
           Köpare
         </Button>
         <Button
           className={!isSeller ? "button-secondary" : "button-primary"}
-          onClick={() => setIsSeller(true)}
+          onClick={() => setIsSeller(true)} // This now calls setSellerMode(true) via auth context
         >
           Säljare
         </Button>
@@ -75,46 +80,28 @@ function HomePage({ isSeller, setIsSeller, books, onFilterChange }) {
   );
 }
 
-function App() {
-  const [isSeller, setIsSeller] = useState(false);
-  const [books, setBooks] = useState([]); // Initialize state for books
+function AppContent() { // Wrap main App logic in a component inside AuthProvider
+  const { isSeller, setSellerMode } = useAuth(); // Get state and setter from context
+
+  const [books, setBooks] = useState([]);
   const [filters, setFilters] = useState({});
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [cookieValue, setCookieValue] = useState(Cookies.get('access_token'));
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
         const params = new URLSearchParams();
-        if (filters.courseCode) {
-          params.append("course_code", filters.courseCode);
-        }
+        if (filters.courseCode) params.append("course_code", filters.courseCode);
         if (filters.priceRange) {
-          const priceRange = filters.priceRange;
-          if (priceRange) {
-            const [min, max] = priceRange.split("-");
-            const minInt = parseInt(min);
-            const maxInt = parseInt(max);
-            if (!isNaN(minInt) && !isNaN(maxInt)) {
-              params.append("price_min", minInt);
-              params.append("price_max", maxInt);
-            }
-          } 
+          const [min, max] = filters.priceRange.split("-");
+          params.append("price_min", parseInt(min));
+          params.append("price_max", parseInt(max));
         }
-        if (filters.condition) {
-          params.append("condition", filters.condition);
-        }
-        if (filters.location) {
-          params.append("location", filters.location);
-        }
-        if (filters.searchTerm) {
-          params.append("title", filters.searchTerm);
-        }
+        if (filters.condition) params.append("condition", filters.condition);
+        if (filters.location) params.append("location", filters.location);
+        if (filters.searchTerm) params.append("title", filters.searchTerm);
 
         let url = "/books/";
-        if (params.toString()) {
-          url += `?${params.toString()}`;
-        }
+        if (params.toString()) url += `?${params.toString()}`;
 
         const response = await apiClient.get(url);
         setBooks(response.data);
@@ -122,66 +109,61 @@ function App() {
         console.error("Failed to fetch books:", error);
       }
     };
-
     fetchBooks();
-  }, [filters]); // Empty dependency array ensures this runs only once on mount
-
-  useEffect(() => {
-    // Check for token in cookies on component mount
-    const token = Cookies.get('access_token');
-    if (token) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, [cookieValue]);
+  }, [filters]);
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
   };
 
-  const handleSetIsAuthenticated = (auth) => {
-    setIsAuthenticated(auth);
-    setCookieValue(Cookies.get('access_token'));
-  }
+  return (
+    <Router>
+      <Header />
+      <div className="page-container">
+        <div className="content-wrap">
+          <div className="container">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <HomePage
+                    isSeller={isSeller} // Use context state
+                    setIsSeller={setSellerMode} // Pass context setter
+                    books={books}
+                    onFilterChange={handleFilterChange}
+                  />
+                }
+              />
+              <Route path="/books/id/:id" element={<BookDetails />} /> {/* Updated to match the URL pattern */}
+              <Route path="/login" element={<RegisterLogin />} />
+              <Route path="/register" element={<RegisterLogin />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="/cookies" element={<CookiesPage />} />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <UserProfile />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    </Router>
+  );
+}
 
+// Main App component now just sets up providers
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Router>
-          {/* Header outside the page-container */}
-          <Header setIsAuthenticated={handleSetIsAuthenticated} />
-          <div className="page-container"> 
-            <div className="content-wrap">
-              <div className="container">
-                <Routes>
-                  <Route
-                    path="/"
-                    element={
-                      <HomePage
-                        isSeller={isSeller}
-                        setIsSeller={setIsSeller}
-                        books={books}
-                        onFilterChange={handleFilterChange}
-                      />
-                    }
-                  />
-                  <Route path="/books/id/:id" element={<BookDetails />} />
-                  <Route path="/login" element={<RegisterLogin setIsAuthenticated={handleSetIsAuthenticated} />} />
-                  <Route 
-                    path="/profile" 
-                    element={
-                      <ProtectedRoute>
-                        <UserProfile />
-                      </ProtectedRoute>
-                    } 
-                  />
-                </Routes>
-              </div>
-            </div>
-            <Footer />
-          </div>
-        </Router>
+        <AppContent /> {/* Render main content */}
       </AuthProvider>
     </QueryClientProvider>
   );

@@ -29,47 +29,99 @@ const RegisterLogin = () => {
     if (isRegistering) {
       const confirmPassword = e.target.confirmPassword.value;
       const phoneNumber = e.target.phoneNumber?.value || null;
-      
+
       if (password !== confirmPassword) {
         setErrorMessage("Passwords do not match");
         setLoading(false);
         return;
       }
       try {
-        const response = await apiClient.post("/auth/register", {
+        // --- Registration Request ---
+        const registerResponse = await apiClient.post("/auth/register", {
           email: email,
           password: password,
           phone_number: phoneNumber,
         });
 
-        if (response.status !== 201) {
-          setErrorMessage("Registration failed");
-          console.error("Registration failed:", response.data);
-          setLoading(false);
-          return;
+        // Check if registration itself failed (e.g., email already exists)
+        // fastapi-users usually returns 201 on success
+        if (registerResponse.status !== 201) {
+           // Use error detail if available, otherwise generic message
+           const errorDetail = registerResponse.data?.detail;
+           let formattedErrorMessage = "Registration failed";
+           if (typeof errorDetail === "string") {
+               formattedErrorMessage = errorDetail;
+           } else if (Array.isArray(errorDetail)) {
+               formattedErrorMessage = errorDetail.map(err => err.msg).join(", ");
+           }
+           setErrorMessage(formattedErrorMessage);
+           console.error("Registration failed:", registerResponse.data);
+           setLoading(false);
+           return;
         }
 
-        console.log("Registration successful:", response.data);
-        navigate("/login");
-      } catch (error) {
-        // Format the error message
-        const errorDetail = error.response?.data?.detail;
+        console.log("Registration successful:", registerResponse.data);
+
+        // --- Automatic Login Attempt ---
+        console.log("Attempting automatic login...");
+        try {
+          const loginData = querystring.stringify({
+            username: email, // Use the email entered during registration
+            password: password, // Use the password entered during registration
+          });
+
+          const loginResponse = await apiClient.post("/auth/jwt/login", loginData, {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          });
+
+          if (loginResponse.status === 200 && loginResponse.data.access_token) {
+            console.log("Automatic login successful:", loginResponse.data);
+            login(loginResponse.data.access_token); // Use context login function
+            navigate("/"); // Navigate to home page after successful login
+          } else {
+            // Handle cases where auto-login fails (e.g., account needs verification)
+            setErrorMessage("Registration successful, but auto-login failed. Please log in manually.");
+            console.error("Automatic login failed:", loginResponse.data);
+            navigate("/login"); // Redirect to login page if auto-login fails
+          }
+        } catch (loginError) {
+           // Handle errors during the automatic login attempt
+           const errorDetail = loginError.response?.data?.detail || "Unknown login error";
+           let formattedErrorMessage = "Registration successful, but auto-login failed";
+           if (typeof errorDetail === "string") {
+               formattedErrorMessage += `: ${errorDetail}`;
+           } else if (Array.isArray(errorDetail)) {
+               formattedErrorMessage += `: ${errorDetail.map(err => err.msg).join(", ")}`;
+           }
+           setErrorMessage(formattedErrorMessage);
+           console.error("Error during automatic login:", loginError);
+           navigate("/login"); // Redirect to login page on error
+        }
+
+      } catch (registerError) {
+        // Format the registration error message
+        const errorDetail = registerError.response?.data?.detail;
         let formattedErrorMessage = "Error during registration";
 
         if (Array.isArray(errorDetail)) {
           formattedErrorMessage = errorDetail
             .map((err) => err.msg)
-            .join(", "); // Join error messages
+            .join(", ");
         } else if (typeof errorDetail === "string") {
           formattedErrorMessage = errorDetail;
+        } else if (registerError.message) {
+            formattedErrorMessage = registerError.message;
         }
 
         setErrorMessage(formattedErrorMessage);
-        console.error("Error during registration:", error);
+        console.error("Error during registration:", registerError.response || registerError);
       } finally {
         setLoading(false);
       }
     } else {
+      // --- Existing Login Logic ---
       try {
         const data = querystring.stringify({
           username: email,
@@ -82,35 +134,38 @@ const RegisterLogin = () => {
           }
         });
 
-        if (response.status !== 200) {
-          setErrorMessage("Login failed");
-          console.error("Login failed:", response.data);
-          setLoading(false);
-          return;
+        // fastapi-users login returns 200 on success
+        if (response.status !== 200 || !response.data.access_token) {
+           const errorDetail = response.data?.detail || "Invalid credentials or other login error";
+           setErrorMessage(typeof errorDetail === 'string' ? errorDetail : "Login failed");
+           console.error("Login failed:", response.data);
+           setLoading(false);
+           return;
         }
 
         const responseData = response.data;
         console.log("Login successful:", responseData);
-        
-        // Use the context's login function instead of setting cookies directly
-        login(responseData.access_token);
-        
-        navigate("/");
+
+        login(responseData.access_token); // Use context login function
+        navigate("/"); // Navigate to home page
+
       } catch (error) {
-        // Format the error message
+        // Format the login error message
         const errorDetail = error.response?.data?.detail;
         let formattedErrorMessage = "Error during login";
 
         if (Array.isArray(errorDetail)) {
           formattedErrorMessage = errorDetail
             .map((err) => err.msg)
-            .join(", "); // Join error messages
+            .join(", ");
         } else if (typeof errorDetail === "string") {
           formattedErrorMessage = errorDetail;
+        } else if (error.message) {
+            formattedErrorMessage = error.message;
         }
 
         setErrorMessage(formattedErrorMessage);
-        console.error("Error during login:", error);
+        console.error("Error during login:", error.response || error);
       } finally {
         setLoading(false);
       }
@@ -144,7 +199,7 @@ const RegisterLogin = () => {
             <div className="form-group">
               <label htmlFor="phoneNumber">Phone Number (optional)</label>
               <input
-                type="phonenumber"
+                type="tel" // Use type="tel" for phone numbers
                 id="phoneNumber"
                 name="phoneNumber"
                 placeholder="Enter your phone number"
@@ -152,7 +207,7 @@ const RegisterLogin = () => {
             </div>
           </>
         )}
-        <Button 
+        <Button
           type="submit"
           disabled={loading}
           className="button"

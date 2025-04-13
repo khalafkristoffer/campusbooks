@@ -14,7 +14,6 @@ const SellSection = () => {
     courseCode: "",
     description: "",
     condition: "",
-    location: "",
     phone_number: "",
   });
   const [image, setImage] = useState(null);
@@ -69,31 +68,23 @@ const SellSection = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Basic validation
-    if (!formData.title || !formData.author || !formData.price || !formData.courseCode || 
-        !formData.condition || !formData.location || !image) {
-      alert("Please fill in all required fields and upload an image");
-      return;
-    }
-
-    const form = new FormData();
-    form.append("title", formData.title);
-    form.append("author", formData.author);
-    form.append("price", formData.price);
-    form.append("course_code", formData.courseCode);
-    form.append("description", formData.description);
-    form.append("condition", formData.condition);
-    form.append("location", formData.location);
-    
-    // Handle phone number (include it even if empty)
-    form.append("image", image);
-
     try {
-      // Make sure apiClient includes authentication headers
-      const response = await apiClient.post("/books/", form, {
+      // Create FormData for file upload
+      const formDataToSend = new FormData();
+      if (image) {
+        formDataToSend.append("image", image);
+      }
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("author", formData.author);
+      formDataToSend.append("price", formData.price);
+      formDataToSend.append("course_code", formData.courseCode);
+      formDataToSend.append("description", formData.description);
+      formDataToSend.append("condition", formData.condition);
+      // Location field removed from form submission
+
+      const response = await apiClient.post("/books/", formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
-          // Authentication headers should be automatically included by your apiClient
         },
       });
       console.log("Book created:", response.data);
@@ -106,7 +97,6 @@ const SellSection = () => {
         courseCode: "",
         description: "",
         condition: "",
-        location: "",
       });
       setImage(null);
       setPreviewImage(null);
@@ -120,7 +110,7 @@ const SellSection = () => {
     <div className="sell-section">
       <h2>Lägg upp din bok</h2>
       <input
-        className = "sell-input"    
+        className="sell-input"
         type="text"
         placeholder="Boktitel"
         name="title"
@@ -128,7 +118,7 @@ const SellSection = () => {
         onChange={handleChange}
       />
       <input
-        className = "sell-input"
+        className="sell-input"
         type="text"
         placeholder="Författare"
         name="author"
@@ -136,7 +126,7 @@ const SellSection = () => {
         onChange={handleChange}
       />
       <input
-        className = "sell-input"
+        className="sell-input"
         type="number"
         placeholder="Pris"
         name="price"
@@ -183,20 +173,7 @@ const SellSection = () => {
         <option value="Använd">Använd</option>
         <option value="Mycket använd">Mycket använd</option>
       </select>
-      <select
-        className="sell-input"
-        name="location"
-        value={formData.location}
-        onChange={handleChange}
-      >
-        <option value="">Plats</option>
-        <option value="Hubben">Hubben</option>
-        <option value="Biblioteket">Biblioteket</option>
-        <option value="Lindholmen">Lindholmen</option>
-        <option value="Chalmers Café">Chalmers Café</option>
-        <option value="Doesn't matter">-</option>
-      </select>
-      
+
       {/* File input and preview section */}
       <div className="file-input-container">
         {!image ? (
@@ -204,19 +181,19 @@ const SellSection = () => {
             <label htmlFor="book-image-upload" className="custom-file-upload">
               <i className="fa fa-cloud-upload"></i> Ladda upp bild
             </label>
-            <input 
+            <input
               id="book-image-upload"
-              type="file" 
-              accept="image/*" 
-              onChange={handleImageChange} 
-              style={{ display: 'none' }}
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              style={{ display: "none" }}
             />
           </>
         ) : (
           <div className="file-selected">
             <span>{image.name}</span>
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="change-image-btn"
               onClick={() => {
                 setImage(null);

@@ -21,13 +21,17 @@ const SearchAndFilter = ({ onFilterChange }) => {
     setFilters({ ...filters, [name]: value });
   };
 
-  // Fetch course codes using React Query
+  // Fetch course codes using React Query with caching
   const { isLoading, error, data: courseCodes } = useQuery({
     queryKey: ["courseCodes"],
     queryFn: async () => {
       const response = await apiClient.get("/course_codes/");
       return response.data;
     },
+    // Caching configuration
+    staleTime: 1000 * 60 * 60, // Consider data fresh for 1 hour
+    cacheTime: 1000 * 60 * 60 * 24, // Keep unused data in cache for 24 hours
+    refetchOnWindowFocus: false, // Don't refetch when window regains focus
   });
 
   return (
@@ -85,19 +89,6 @@ const SearchAndFilter = ({ onFilterChange }) => {
           </option>
           <option value="Nyskick">Nyskick</option>
           <option value="Bra skick">Bra skick</option>
-        </select>
-
-        <select
-          id="locationFilter"
-          name="location"
-          value={filters.location}
-          onChange={handleChange}
-        >
-          <option value="">
-            {filters.location ? "Rensa filter" : "Filtrera plats"}
-          </option>
-          <option value="Hubben">Hubben</option>
-          <option value="Biblioteket">Biblioteket</option>
         </select>
       </div>
     </div>

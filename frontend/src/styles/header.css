@@ -21,6 +21,22 @@
   justify-content: space-between;
   height: 70px;
   transition: height 0.3s ease;
+  position: relative;
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  z-index: 1;
 }
 
 .scrolled .header-content {
@@ -163,6 +179,14 @@
   
   .header-content {
     height: 60px;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .header-center {
+    position: static;
+    transform: none;
+    margin: 0 auto;
   }
   
   .logo {

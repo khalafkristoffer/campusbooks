@@ -1,4 +1,3 @@
-// src/components/BookDetails.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Button from "./Button";
@@ -15,18 +14,29 @@ const BookDetails = () => {
   const { isAuthenticated } = useAuth();
   const [sellerInfo, setSellerInfo] = useState(null);
 
+  // --- Scroll to top on component mount or ID change ---
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]); // Dependency array ensures this runs when the book ID changes
+
   useEffect(() => {
     const fetchBook = async () => {
       try {
+        setLoading(true); // Reset loading state when ID changes
+        setError(null);   // Reset error state
+        setBook(null);    // Reset book data
+        setShowContact(false); // Hide contact info when navigating to a new book
+        setSellerInfo(null); // Reset seller info
+
         const response = await apiClient.get(`/books/id/${id}`);
         setBook(response.data);
-        setLoading(false);
       } catch (err) {
         setError("Failed to load book details");
-        setLoading(false);
         console.error(err);
+      } finally {
+        setLoading(false);
       }
-    };    
+    };
 
     fetchBook();
   }, [id]);
@@ -34,14 +44,12 @@ const BookDetails = () => {
   const handleContactClick = async () => {
     if (!sellerInfo && !showContact) {
       try {
-        // Update the endpoint to match the new route format
         const response = await apiClient.get(`/books/id/${id}/seller-info`);
         setSellerInfo(response.data);
       } catch (error) {
         console.error("Error fetching seller info:", error);
       }
     }
-    
     setShowContact(!showContact);
   };
 
@@ -84,14 +92,6 @@ const BookDetails = () => {
                 <div className="info-content">
                   <span className="info-label">Condition</span>
                   <span className="info-value">{book.condition}</span>
-                </div>
-              </div>
-              
-              <div className="info-item">
-                <span className="info-icon">📍</span>
-                <div className="info-content">
-                  <span className="info-label">Location</span>
-                  <span className="info-value">{book.location}</span>
                 </div>
               </div>
             </div>

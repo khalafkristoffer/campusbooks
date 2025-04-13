@@ -16,6 +16,7 @@ from app.core.config import settings
 from fastapi import Depends
 from app.schemas.users import UserCreate, UserRead, UserUpdate
 from app.crud.users import auth_backend, current_active_user, fastapi_users
+from app.middleware.rate_limiter import RateLimitMiddleware
 
 load_dotenv()
 
@@ -31,26 +32,47 @@ app = FastAPI(
 )
 
 origins = [
-  "localhost:8000"
+  "http://localhost:5173",  # This is your frontend URL
+  "http://localhost:8000",
+  "https://example.com" 
 ]
 
+# Add CORS middleware first
 app.add_middleware(
     CORSMiddleware,
-    #allow all origins for now
-    allow_origins=["*"],
+    allow_origins=origins,  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Add the Rate Limit middleware AFTER CORS but BEFORE routers
+# Limit critical paths like auth and resource creation
+app.add_middleware(
+    RateLimitMiddleware,
+    limit=10,  # Requests per window per IP
+    window=60, # Window in seconds (1 minute)
+    # List of paths to target for rate limiting:
+    target_paths=[
+        # Authentication endpoints
+        "/auth/register",
+        "/auth/jwt/login",
+        "/auth/forgot-password",
+        "/auth/request-verify-token",
+        "/books/", # POST request to create a book
+        
+    ]
+)
+
+# startup events
+from app.data.coursedata import seed_data
+
 @app.on_event("startup")
 async def startup():
     async with engine.begin() as conn:
-        # Uncomment this line if you want to drop all tables first
-        # await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
-    
-    # Fix the foreign key constraint issue
+        await create_db_and_tables()
+    seed_data()
 
 app.include_router(books.router)
 app.include_router(courses.router)
@@ -86,9 +108,3 @@ async def authenticated_route(user: User = Depends(current_active_user)):
     return {"message": f"Hello {user.email}!"}
 
 
-# remove on deployment
-
-@app.on_event("startup")
-async def startup():
-    async with engine.begin() as conn:
-        await create_db_and_tables()

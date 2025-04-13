@@ -30,17 +30,16 @@ async def CRUDget_books_with_filters(
     db,
     skip: int = 0,
     limit: int = 100,
-    course_code: str = None,
-    price_min: int = None,
-    price_max: int = None,
-    location: str = None,
-    condition: str = None,
-    title: str = None,
+    course_code: Optional[str] = None,
+    price_min: Optional[int] = None,
+    price_max: Optional[int] = None,
+    condition: Optional[str] = None,
+    title: Optional[str] = None,
 ):
     """
     Retrieve books with optional filtering.
     """
-    stmt = select(BookDBModel)
+    stmt = select(BookDBModel).offset(skip).limit(limit)
     
     # Add filters
     if course_code:
@@ -49,14 +48,11 @@ async def CRUDget_books_with_filters(
         stmt = stmt.where(BookDBModel.price >= price_min)
     if price_max is not None:
         stmt = stmt.where(BookDBModel.price <= price_max)
-    if location:
-        stmt = stmt.where(BookDBModel.location == location)
     if condition:
         stmt = stmt.where(BookDBModel.condition == condition)
     if title:
         stmt = stmt.where(BookDBModel.title.ilike(f"%{title}%"))
         
-    stmt = stmt.offset(skip).limit(limit)
     result = await db.execute(stmt)
     return result.scalars().all()
 

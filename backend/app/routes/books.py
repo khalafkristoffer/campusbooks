@@ -22,7 +22,7 @@ async def create_book(
     description: str = Form(...),
     condition: str = Form(...),
     price: int = Form(...),
-    location: str = Form(...),
+    # location field removed
     image: UploadFile = File(...),
     db: AsyncSession = Depends(database.get_db),
     current_user: User = Depends(current_active_user)
@@ -34,7 +34,7 @@ async def create_book(
         "description": description,
         "condition": condition,
         "price": int(price),
-        "location": location,
+        # location field removed
     }
     book = BookCreate(**book_data)
     created_book = await CRUDcreate_book(db, book, image, current_user.id)
@@ -48,7 +48,7 @@ async def get_books(
     course_code: Optional[str] = None,
     price_min: Optional[int] = None,
     price_max: Optional[int] = None,
-    location: Optional[str] = None,
+    # location parameter removed
     condition: Optional[str] = None,
     title: Optional[str] = None,
 ):
@@ -62,7 +62,7 @@ async def get_books(
         course_code=course_code,
         price_min=price_min,
         price_max=price_max,
-        location=location,
+        # location parameter removed
         condition=condition,
         title=title 
     )

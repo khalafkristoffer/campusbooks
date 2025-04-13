@@ -1,53 +1,52 @@
 /* Book Details Page Styles */
 .book-details-page {
-  width: 80%;
-  padding-bottom: 60px;
+  width: 85%; /* Slightly increased width to compensate for smaller elements */
+  padding-bottom: 25px; /* Reduced */
   justify-self: center;
-  height: 80%;
 }
 
 .back-button {
   position: fixed;
-  top: 100px;
-  left: 25px;
+  top: 90px; /* Adjusted */
+  left: 20px; /* Adjusted */
   z-index: 1000;
   background-color: white;
   color: #1976d2;
   border: none;
-  border-radius: 30px;
-  padding: 12px 20px;
+  border-radius: 25px; /* Reduced */
+  padding: 10px 18px; /* Reduced */
   font-weight: 600;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Reduced */
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
 }
 
 .back-button:hover {
-  transform: translateX(-5px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  transform: translateX(-4px); /* Reduced */
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15); /* Reduced */
 }
 
 .back-icon {
-  margin-right: 8px;
-  font-size: 1.2em;
+  margin-right: 6px; /* Reduced */
+  font-size: 1.1em; /* Reduced */
   line-height: 1;
 }
 
 .book-detail-container {
-  border-radius: 16px;
+  border-radius: 14px; /* Reduced */
   background: white;
-  padding: 2rem;
+  padding: 1.8rem; /* Reduced */
   display: flex;
   flex-direction: row;
-  gap: 3rem;
-  max-width: 1100px;
+  gap: 2.5rem; /* Reduced */
+  max-width: 1050px; /* Reduced */
   width: 90%;
-  margin: 3rem auto 0;
+  margin: 2.5rem auto 0; /* Reduced */
   box-sizing: border-box;
   color: #333;
   text-align: left;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07); /* Reduced */
 }
 
 .book-detail-left {
@@ -60,15 +59,15 @@
 
 .image-container {
   position: relative;
-  border-radius: 12px;
+  border-radius: 10px; /* Reduced */
   overflow: hidden;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15); /* Reduced */
 }
 
 .book-detail-left img {
   object-fit: cover;
-  height: 420px;
-  width: 280px;
+  height: 380px; /* Reduced */
+  width: 250px; /* Reduced */
   display: block;
   transition: transform 0.4s ease;
 }
@@ -80,25 +79,25 @@
 .price-tag {
   background-color: #1976d2;
   color: white;
-  padding: 12px 24px;
-  border-radius: 30px;
-  margin-top: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  padding: 10px 20px; /* Reduced */
+  border-radius: 25px; /* Reduced */
+  margin-top: 18px; /* Reduced */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15); /* Reduced */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .current-price {
-  font-size: 1.8rem;
+  font-size: 1.6rem; /* Reduced */
   font-weight: bold;
 }
 
 .original-price {
-  font-size: 1rem;
+  font-size: 0.9rem; /* Reduced */
   text-decoration: line-through;
   opacity: 0.8;
-  margin-top: 4px;
+  margin-top: 3px; /* Reduced */
 }
 
 .book-detail-right {
@@ -108,37 +107,37 @@
 }
 
 .book-detail-right h1 {
-  font-size: 2.2rem;
+  font-size: 2rem; /* Reduced */
   color: #333;
   margin-top: 0;
-  margin-bottom: 10px;
-  line-height: 1.3;
+  margin-bottom: 8px; /* Reduced */
+  line-height: 1.25; /* Adjusted */
   font-weight: 700;
 }
 
 .author-line {
-  font-size: 1.2rem;
+  font-size: 1.1rem; /* Reduced */
   color: #666;
-  margin-bottom: 25px;
+  margin-bottom: 20px; /* Reduced */
   font-style: italic;
 }
 
 .info-section {
-  margin: 25px 0;
+  margin: 20px 0; /* Reduced */
 }
 
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Reduced minmax */
+  gap: 15px; /* Reduced */
 }
 
 .info-item {
   display: flex;
   align-items: flex-start;
-  padding: 15px;
+  padding: 12px; /* Reduced */
   background-color: #f8f9fa;
-  border-radius: 12px;
+  border-radius: 10px; /* Reduced */
   transition: all 0.2s ease;
 }
 
@@ -148,8 +147,8 @@
 }
 
 .info-icon {
-  font-size: 1.5rem;
-  margin-right: 15px;
+  font-size: 1.3rem; /* Reduced */
+  margin-right: 12px; /* Reduced */
   line-height: 1;
 }
 
@@ -159,27 +158,27 @@
 }
 
 .info-label {
-  font-size: 0.85rem;
+  font-size: 0.8rem; /* Reduced */
   color: #666;
-  margin-bottom: 4px;
+  margin-bottom: 3px; /* Reduced */
 }
 
 .info-value {
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1rem; /* Reduced */
   color: #333;
 }
 
 .description-section {
-  margin-top: 30px;
+  margin-top: 25px; /* Reduced */
 }
 
 .description-section h2 {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
+  font-size: 1.4rem; /* Reduced */
+  margin-bottom: 12px; /* Reduced */
   color: #333;
   position: relative;
-  padding-bottom: 10px;
+  padding-bottom: 8px; /* Reduced */
 }
 
 .description-section h2:after {
@@ -187,69 +186,70 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 40px;
-  height: 3px;
+  width: 35px; /* Reduced */
+  height: 2.5px; /* Reduced */
   background-color: #1976d2;
-  border-radius: 3px;
+  border-radius: 2px; /* Reduced */
 }
 
 .book-description-box {
-  padding: 20px;
+  padding: 18px; /* Reduced */
   background: #f9f9f9;
   color: #333;
-  border-radius: 12px;
-  line-height: 1.6;
+  border-radius: 10px; /* Reduced */
+  line-height: 1.55; /* Adjusted */
 }
 
 .book-description-box p {
   margin: 0;
   color: #555;
-  font-size: 1.05rem;
+  font-size: 1rem; /* Reduced */
 }
 
 .contact-section {
-  margin-top: 30px;
+  margin-top: 25px; /* Reduced */
 }
 
 .contact-button {
   background-color: #1976d2;
   color: white;
-  padding: 14px 30px;
-  border-radius: 8px;
+  padding: 12px 25px; /* Reduced */
+  border-radius: 7px; /* Reduced */
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1rem; /* Reduced */
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.18); /* Reduced */
 }
 
 .contact-button:hover {
   background-color: #1565c0;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px); /* Reduced */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.22); /* Reduced */
 }
 
-/* Add these styles to your existing book-detail.css file */
-
 .contact-info-box {
-  margin-top: 20px;
+  margin-top: 18px; /* Reduced */
   background-color: #f8f9fa;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  border-left: 4px solid #1976d2;
+  border-radius: 10px; /* Reduced */
+  padding: 18px; /* Reduced */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07); /* Reduced */
+  border-left: 3px solid #1976d2; /* Reduced */
 }
 
 .contact-info-box h3 {
   margin-top: 0;
   color: #1976d2;
-  margin-bottom: 15px;
-  font-size: 1.2rem;
+  margin-bottom: 12px; /* Reduced */
+  font-size: 1.1rem; /* Reduced */
 }
 
 .contact-info-box .info-item {
   background-color: white;
+  width: fit-content; /* Make the item width adjust to its content */
+  min-width: 180px; /* Optional: Set a minimum width if desired */
+  margin-bottom: 10px; /* Add some spacing between items */
 }
 
 .contact-info-box .info-value a {
@@ -267,36 +267,37 @@
   .book-detail-container {
     flex-direction: column;
     align-items: center;
-    padding: 30px 20px;
+    padding: 25px 15px; /* Reduced */
     width: 95%;
-    margin-top: 80px;
+    margin-top: 70px; /* Reduced */
   }
-  
+
   .back-button {
-    top: 80px;
-    left: 15px;
+    top: 75px; /* Adjusted */
+    left: 10px; /* Adjusted */
+    padding: 8px 15px; /* Reduced */
   }
-  
+
   .book-detail-right {
     width: 100%;
   }
-  
+
   .info-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .book-detail-left {
-    margin-bottom: 30px;
+    margin-bottom: 25px; /* Reduced */
   }
-  
+
   .book-detail-right h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem; /* Reduced */
   }
 }
 
 .not-found-container {
   text-align: center;
-  padding: 40px;
-  font-size: 1.2rem;
+  padding: 35px; /* Reduced */
+  font-size: 1.1rem; /* Reduced */
   color: #666;
 }
