@@ -35,7 +35,8 @@ app = FastAPI(
 origins = [
   "http://localhost:5173",  # Frontend development URL
   "http://localhost:8000",  # Backend URL
-  "https://campusbooks.onrender.com/"     # Production URL
+  "https://campusbooks.onrender.com",     # Production URL
+  "https://chalmersshelf-api.onrender.com"
 ]
 
 # Add CORS middleware first
@@ -74,7 +75,6 @@ async def startup():
         await conn.run_sync(Base.metadata.create_all)
         await create_db_and_tables()
     await seed_data()
-
 app.include_router(books.router)
 app.include_router(courses.router)
 
