@@ -20,21 +20,22 @@ from app.middleware.rate_limiter import RateLimitMiddleware
 
 load_dotenv()
 
+# Configure cloudinary using settings from config
 cloudinary.config(
-    cloud_name=os.getenv("dbusername"),
-    api_key=os.getenv("apikey"),
-    api_secret=os.getenv("apisecret"),
+    cloud_name=settings.CLOUDINARY_CLOUD_NAME,
+    api_key=settings.CLOUDINARY_API_KEY,
+    api_secret=settings.CLOUDINARY_API_SECRET,
     secure=True
 )
 
 app = FastAPI(
-  title="ChalmerShelf",        # settings.PROJECT_NAME
+  title="campusbooks",        # Use project name from settings
 )
 
 origins = [
-  "http://localhost:5173",  # This is your frontend URL
-  "http://localhost:8000",
-  "https://example.com" 
+  "http://localhost:5173",  # Frontend development URL
+  "http://localhost:8000",  # Backend URL
+  "https://campusbooks.onrender.com/"     # Production URL
 ]
 
 # Add CORS middleware first

@@ -6,4 +6,8 @@ export default defineConfig({
   plugins: [
     react(), 
   ],
+  // Make Vite recognize environment variables
+  define: {
+    'process.env': process.env
+  }
 })

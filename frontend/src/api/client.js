@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000', // Replace with your backend URL
+  baseURL: import.meta.env.VITE_API_BASE_URL, // Using environment variable instead of hardcoded URL
   headers: {
     'Content-Type': 'application/json',
   },
