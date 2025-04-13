@@ -75,6 +75,11 @@ async def startup():
         await conn.run_sync(Base.metadata.create_all)
         await create_db_and_tables()
     await seed_data()
+    
+    # Add created_at column to books table if it doesn't exist
+    from app.crud.add_created_at import add_created_at_column
+    await add_created_at_column()
+    
 app.include_router(books.router)
 app.include_router(courses.router)
 
