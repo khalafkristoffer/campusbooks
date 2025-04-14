@@ -38,7 +38,7 @@ const Header = () => {
           {isAuthenticated && (
             <div className="header-center">
               <Link to="/profile" className={`nav-link my-books ${location.pathname === '/profile' ? 'active' : ''}`}>
-                My Books
+                Mina böcker
               </Link>
             </div>
           )}
@@ -46,11 +46,11 @@ const Header = () => {
           <div className="header-right">
             {isAuthenticated ? (
               <button onClick={handleLogout} className="logout-btn">
-                Logout
+                Logga ut
               </button>
             ) : (
               <Link to="/login" className={`nav-link login-btn ${location.pathname === '/login' ? 'active' : ''}`}>
-                Login
+                Logga in
               </Link>
             )}
           </div>

@@ -6,7 +6,7 @@ import '../styles/books.css';
 
 const BookList = ({ books }) => {
   if (!books || books.length === 0) {
-    return <p>No books found matching your criteria.</p>;
+    return <p>Inga böcker som matchade dina filter hittades</p>;
   }
 
   return (

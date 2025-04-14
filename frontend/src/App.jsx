@@ -99,10 +99,7 @@ function AppContent() { // Wrap main App logic in a component inside AuthProvide
         if (filters.location) params.append("location", filters.location);
         if (filters.searchTerm) params.append("title", filters.searchTerm);
 
-        let url = "/books/";
-        if (params.toString()) url += `?${params.toString()}`;
-
-        const response = await apiClient.get(url);
+        const response = await apiClient.get(`/books/${params.toString() ? `?${params.toString()}` : ''}`);
         setBooks(response.data);
       } catch (error) {
         console.error("Failed to fetch books:", error);

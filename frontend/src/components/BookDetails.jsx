@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import   { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import "../styles/book-detail.css";
 import apiClient from "../api/client";
@@ -52,14 +52,14 @@ const BookDetails = () => {
     setShowContact(!showContact);
   };
 
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading) return <div className="loading">Laddar...</div>;
   if (error) return <div className="error">{error}</div>;
   if (!book) return <div className="not-found-container">Book not found</div>;
 
   return (
     <div className="book-details-page">
       <Link to="/" className="back-button">
-        <span className="back-icon">&larr;</span> Back to Books
+        <span className="back-icon">&larr;</span> Returnera
       </Link>
       
       <div className="book-detail-container">
@@ -81,7 +81,7 @@ const BookDetails = () => {
               <div className="info-item">
                 <span className="info-icon">📚</span>
                 <div className="info-content">
-                  <span className="info-label">Course Code</span>
+                  <span className="info-label">Kurskod</span>
                   <span className="info-value">{book.course_code}</span>
                 </div>
               </div>
@@ -89,7 +89,7 @@ const BookDetails = () => {
               <div className="info-item">
                 <span className="info-icon">✨</span>
                 <div className="info-content">
-                  <span className="info-label">Condition</span>
+                  <span className="info-label">Skick</span>
                   <span className="info-value">{book.condition}</span>
                 </div>
               </div>
@@ -110,19 +110,19 @@ const BookDetails = () => {
                   className="contact-button" 
                   onClick={handleContactClick}
                 >
-                  {showContact ? "Hide Contact Info" : "Contact Seller"}
+                  {showContact ? "Göm kontaktinfo" : "Kontakta säljare"}
                 </button>
                 
                 {showContact && (
                   <div className="contact-info-box">
-                    <h3>Seller Contact Information</h3>
+                    <h3>Kontaktinformation</h3>
                     {sellerInfo ? (
                       <div className="info-grid">
                         {sellerInfo.phone_number && (
                           <div className="info-item">
                             <span className="info-icon">📱</span>
                             <div className="info-content">
-                              <span className="info-label">Phone</span>
+                              <span className="info-label">Telefonnummer</span>
                               <span className="info-value">
                                 <a href={`tel:${sellerInfo.phone_number}`}>{sellerInfo.phone_number}</a>
                               </span>
@@ -143,11 +143,11 @@ const BookDetails = () => {
                         )}
                         
                         {!sellerInfo.phone_number && !sellerInfo.email && (
-                          <p>No contact information available</p>
+                          <p>Säljaren verkar inte ha någon kontaktinformation</p>
                         )}
                       </div>
                     ) : (
-                      <p>Loading contact information...</p>
+                      <p>Laddar...</p>
                     )}
                   </div>
                 )}

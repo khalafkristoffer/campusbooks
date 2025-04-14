@@ -25,7 +25,6 @@ const BookCard = ({ book }) => {
           <div className="other-group">
             <p className="book-kurskod">📖 Kurskod: {book.course_code || 'N/A'}</p>
             <p className="book-condition">👍 Skick: {book.condition || 'N/A'}</p>
-            <p className="book-location">📍 Plats: {book.location || 'N/A'}</p>
           </div>
         </div>
       </div>

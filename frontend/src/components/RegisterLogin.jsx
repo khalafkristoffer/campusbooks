@@ -31,7 +31,7 @@ const RegisterLogin = () => {
       const phoneNumber = e.target.phoneNumber?.value || null;
 
       if (password !== confirmPassword) {
-        setErrorMessage("Passwords do not match");
+        setErrorMessage("Lösenorden matchar inte");
         setLoading(false);
         return;
       }
@@ -48,11 +48,26 @@ const RegisterLogin = () => {
         if (registerResponse.status !== 201) {
            // Use error detail if available, otherwise generic message
            const errorDetail = registerResponse.data?.detail;
-           let formattedErrorMessage = "Registration failed";
+           let formattedErrorMessage = "Registrering misslyckades";
+           
            if (typeof errorDetail === "string") {
-               formattedErrorMessage = errorDetail;
+               // Translate common error messages to Swedish
+               if (errorDetail.includes("already exists")) {
+                 formattedErrorMessage = "Kontot finns redan";
+               } else if (errorDetail.includes("phone_number")) {
+                 formattedErrorMessage = "Telefonnumret används redan";
+               } else {
+                 formattedErrorMessage = errorDetail;
+               }
            } else if (Array.isArray(errorDetail)) {
-               formattedErrorMessage = errorDetail.map(err => err.msg).join(", ");
+               formattedErrorMessage = errorDetail.map(err => {
+                 if (err.msg && err.msg.includes("email")) {
+                   return "Ogiltig e-postadress";
+                 } else if (err.msg && err.msg.includes("phone")) {
+                   return "Ogiltigt telefonnummer";
+                 }
+                 return err.msg;
+               }).join(", ");
            }
            setErrorMessage(formattedErrorMessage);
            console.error("Registration failed:", registerResponse.data);
@@ -82,14 +97,14 @@ const RegisterLogin = () => {
             navigate("/"); // Navigate to home page after successful login
           } else {
             // Handle cases where auto-login fails (e.g., account needs verification)
-            setErrorMessage("Registration successful, but auto-login failed. Please log in manually.");
+            setErrorMessage("Registrering lyckades, men automatisk inloggning misslyckades. Vänligen logga in manuellt.");
             console.error("Automatic login failed:", loginResponse.data);
             navigate("/login"); // Redirect to login page if auto-login fails
           }
         } catch (loginError) {
            // Handle errors during the automatic login attempt
-           const errorDetail = loginError.response?.data?.detail || "Unknown login error";
-           let formattedErrorMessage = "Registration successful, but auto-login failed";
+           const errorDetail = loginError.response?.data?.detail || "Okänt inloggningsfel";
+           let formattedErrorMessage = "Registrering lyckades, men automatisk inloggning misslyckades";
            if (typeof errorDetail === "string") {
                formattedErrorMessage += `: ${errorDetail}`;
            } else if (Array.isArray(errorDetail)) {
@@ -103,20 +118,59 @@ const RegisterLogin = () => {
       } catch (registerError) {
         // Format the registration error message
         const errorDetail = registerError.response?.data?.detail;
-        let formattedErrorMessage = "Error during registration";
+        let formattedErrorMessage = "Ett fel uppstod vid registreringen";
 
-        if (Array.isArray(errorDetail)) {
+        // Check for network errors first
+        if (registerError.code === 'ERR_NETWORK' || registerError.message === 'Network Error') {
+          // If we're getting a network error when trying to register, it's likely the server encountered
+          // an unhandled error with phone number uniqueness constraint
+          const phoneNumber = e.target.phoneNumber?.value;
+          if (phoneNumber) {
+            formattedErrorMessage = "Telefonnumret används redan av en annan användare";
+            console.error("Network error during registration, likely a phone number conflict:", registerError);
+          } else {
+            formattedErrorMessage = "Kunde inte ansluta till servern. Försök igen senare.";
+            console.error("Network error during registration:", registerError);
+          }
+        } else if (Array.isArray(errorDetail)) {
           formattedErrorMessage = errorDetail
-            .map((err) => err.msg)
+            .map((err) => {
+              if (err.msg && err.msg.includes("email")) {
+                return "Ogiltig e-postadress";
+              } else if (err.msg && err.msg.includes("password")) {
+                return "Lösenordet uppfyller inte kraven";
+              } else if (err.msg && err.msg.includes("phone")) {
+                return "Ogiltigt telefonnummer";
+              }
+              return err.msg;
+            })
             .join(", ");
         } else if (typeof errorDetail === "string") {
-          formattedErrorMessage = errorDetail;
+          // Translate common error messages to Swedish
+          if (errorDetail.includes("already exists") && errorDetail.includes("email")) {
+            formattedErrorMessage = "En användare med denna e-postadress finns redan";
+          } else if (errorDetail.includes("phone_number")) {
+            formattedErrorMessage = "Telefonnumret används redan";
+          } else if (errorDetail === "REGISTER_USER_ALREADY_EXISTS") {
+            formattedErrorMessage = "En användare med denna e-postadress finns redan";
+          } else {
+            formattedErrorMessage = errorDetail;
+          }
+        } else if (registerError.response?.status === 500 || registerError.response?.status === 400) {
+          // Check for internal server errors that might be caused by duplicate phone number
+          const errorString = JSON.stringify(registerError.response?.data || "").toLowerCase();
+          if (errorString.includes("phone_number") && 
+              (errorString.includes("unique") || errorString.includes("duplicate") || errorString.includes("already exists"))) {
+            formattedErrorMessage = "Telefonnumret används redan av en annan användare";
+          } else if (errorString.includes("internal server error")) {
+            formattedErrorMessage = "Ett tekniskt fel uppstod. Försök igen senare.";
+          }
         } else if (registerError.message) {
             formattedErrorMessage = registerError.message;
         }
 
         setErrorMessage(formattedErrorMessage);
-        console.error("Error during registration:", registerError.response || registerError);
+        console.error("Error during registration:", registerError);
       } finally {
         setLoading(false);
       }
@@ -137,7 +191,7 @@ const RegisterLogin = () => {
         // fastapi-users login returns 200 on success
         if (response.status !== 200 || !response.data.access_token) {
            const errorDetail = response.data?.detail || "Invalid credentials or other login error";
-           setErrorMessage(typeof errorDetail === 'string' ? errorDetail : "Login failed");
+           setErrorMessage("Fel inloggning");
            console.error("Login failed:", response.data);
            setLoading(false);
            return;
@@ -152,16 +206,30 @@ const RegisterLogin = () => {
       } catch (error) {
         // Format the login error message
         const errorDetail = error.response?.data?.detail;
-        let formattedErrorMessage = "Error during login";
+        let formattedErrorMessage = "Fel inloggning";
 
         if (Array.isArray(errorDetail)) {
           formattedErrorMessage = errorDetail
-            .map((err) => err.msg)
+            .map((err) => {
+              if (err.msg && err.msg.includes("email")) {
+                return "Ogiltig e-postadress";
+              } else if (err.msg && err.msg.includes("password")) {
+                return "Fel lösenord";
+              }
+              return err.msg;
+            })
             .join(", ");
         } else if (typeof errorDetail === "string") {
-          formattedErrorMessage = errorDetail;
-        } else if (error.message) {
-            formattedErrorMessage = error.message;
+          // Check for specific error messages
+          if (errorDetail.includes("credentials") || errorDetail === "LOGIN_BAD_CREDENTIALS") {
+            formattedErrorMessage = "Fel e-postadress eller lösenord";
+          } else if (errorDetail.includes("verify")) {
+            formattedErrorMessage = "Kontot måste verifieras först";
+          } else {
+            formattedErrorMessage = errorDetail;
+          }
+        } else if (error.message && error.message.includes("Network Error")) {
+            formattedErrorMessage = "Kunde inte ansluta till servern";
         }
 
         setErrorMessage(formattedErrorMessage);

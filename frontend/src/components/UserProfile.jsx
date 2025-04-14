@@ -24,12 +24,12 @@ const UserProfile = () => {
       setDeleteInProgress(bookId);
       await apiClient.delete(`/books/${bookId}`);
       setDeleteInProgress(null);
-      alert('Book deleted successfully');
+      alert('Boken har tagits bort');
       refetch();
     } catch (error) {
       setDeleteInProgress(null);
       console.error('Error deleting book:', error);
-      alert('Failed to delete book');
+      alert('Kunde inte ta bort boken');
     }
   };
 
@@ -38,23 +38,23 @@ const UserProfile = () => {
     navigate('/');
   };
 
-  if (isLoading) return <div className="loading-container"><div className="loading">Loading your books...</div></div>;
-  if (error) return <div className="error-container"><div className="error">Error loading your books: {error.message}</div></div>;
+  if (isLoading) return <div className="loading-container"><div className="loading">Laddar dina böcker...</div></div>;
+  if (error) return <div className="error-container"><div className="error">Fel vid laddning av böcker: {error.message}</div></div>;
 
   return (
     <div className="user-profile-container">
       <div className="user-profile-header">
-        <h1>My Books</h1>
+        <h1>Mina böcker</h1>
         <Button onClick={handleGoToSell} className="button-primary add-book-button">
-          Post New Book
+          Lägg upp bokannons
         </Button>
       </div>
       
       {myBooks && myBooks.length === 0 ? (
         <div className="no-books">
-          <p>You haven't posted any books yet.</p>
+          <p>Du har inte lagt upp någon bokannons</p>
           <Button onClick={handleGoToSell} className="button-primary">
-            Post a Book
+            Lägg upp din första bokannons
           </Button>
         </div>
       ) : (
@@ -69,13 +69,23 @@ const UserProfile = () => {
                 <p className="book-course">{book.course_code}</p>
                 <p className="book-price">{book.price} kr</p>
                 <div className="book-actions">
-                  <Link to={`/books/id/${book.id}`} className="view-link">View</Link>
+                  <Link to={`/books/id/${book.id}`} className="view-link">Visa</Link>
                   <button
                     onClick={() => handleDeleteBook(book.id)}
                     className="delete-button"
                     disabled={deleteInProgress === book.id}
                   >
-                    {deleteInProgress === book.id ? 'Deleting...' : 'Delete'}
+                    {deleteInProgress === book.id ? (
+                      <>
+                        <span className="spinner" style={{ 
+                          borderColor: 'rgba(255, 255, 255, 0.3)', 
+                          borderTopColor: 'white',
+                          width: '16px',
+                          height: '16px'
+                        }}></span>
+                        Tar bort...
+                      </>
+                    ) : 'Ta bort'}
                   </button>
                 </div>
               </div>

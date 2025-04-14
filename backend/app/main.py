@@ -52,7 +52,7 @@ app.add_middleware(
 # Limit critical paths like auth and resource creation
 app.add_middleware(
     RateLimitMiddleware,
-    limit=10,  # Requests per window per IP
+    limit=60,  # Requests per window per IP
     window=60, # Window in seconds (1 minute)
     # List of paths to target for rate limiting:
     target_paths=[
@@ -76,9 +76,6 @@ async def startup():
         await create_db_and_tables()
     await seed_data()
     
-    # Add created_at column to books table if it doesn't exist
-    from app.crud.add_created_at import add_created_at_column
-    await add_created_at_column()
     
 app.include_router(books.router)
 app.include_router(courses.router)

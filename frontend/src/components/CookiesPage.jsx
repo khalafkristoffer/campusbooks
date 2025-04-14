@@ -82,14 +82,7 @@ const CookiesPage = () => {
           Senast uppdaterad: 13 april 2025
         </p>
       </section>
-      
-      <section className="policy-section">
-        <h2>Kontakt</h2>
-        <p>
-          Om du har frågor om vår cookie-policy, kontakta oss gärna på 
-          <a href="mailto:privacy@chalmershelf.se"> privacy@chalmershelf.se</a>.
-        </p>
-      </section>
+
     </div>
   );
 };

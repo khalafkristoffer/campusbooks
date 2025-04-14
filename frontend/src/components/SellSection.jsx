@@ -18,6 +18,7 @@ const SellSection = () => {
   });
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add loading state
 
   // Fetch course codes using React Query
   const { isLoading, error, data: course_code } = useQuery({
@@ -38,7 +39,7 @@ const SellSection = () => {
     }
 
     if (!selectedImage.type.startsWith("image/")) {
-      alert("Please select an image file.");
+      alert("Bara bilder går att ladda upp.");
       e.target.value = null;
       setImage(null);
       setPreviewImage(null);
@@ -46,7 +47,7 @@ const SellSection = () => {
     }
 
     if (selectedImage.size > 5 * 1024 * 1024) {
-      alert("Image size must be less than 5MB.");
+      alert("Bildens storlek måste vara mindre än 5MB.");
       e.target.value = null;
       setImage(null);
       setPreviewImage(null);
@@ -68,6 +69,7 @@ const SellSection = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // Set loading state
     try {
       // Create FormData for file upload
       const formDataToSend = new FormData();
@@ -89,7 +91,7 @@ const SellSection = () => {
       });
       console.log("Book created:", response.data);
       // Reset form and show success message
-      alert("Book successfully added!");
+      alert("Boken har lagts upp!");
       setFormData({
         title: "",
         author: "",
@@ -103,6 +105,8 @@ const SellSection = () => {
     } catch (error) {
       console.error("Error creating book:", error);
       alert("Failed to add book. Please try again.");
+    } finally {
+      setIsSubmitting(false); // Reset loading state
     }
   };
 
@@ -116,6 +120,7 @@ const SellSection = () => {
         name="title"
         value={formData.title}
         onChange={handleChange}
+        disabled={isSubmitting} // Disable input while submitting
       />
       <input
         className="sell-input"
@@ -124,6 +129,7 @@ const SellSection = () => {
         name="author"
         value={formData.author}
         onChange={handleChange}
+        disabled={isSubmitting} // Disable input while submitting
       />
       <input
         className="sell-input"
@@ -132,6 +138,7 @@ const SellSection = () => {
         name="price"
         value={formData.price}
         onChange={handleChange}
+        disabled={isSubmitting} // Disable input while submitting
       />
       <textarea
         className="sell-description"
@@ -140,16 +147,18 @@ const SellSection = () => {
         value={formData.description}
         onChange={handleChange}
         rows="4"
+        disabled={isSubmitting} // Disable input while submitting
       />
       <select
         className="sell-input"
         name="courseCode"
         value={formData.courseCode}
         onChange={handleChange}
+        disabled={isSubmitting} // Disable input while submitting
       >
         <option value="">Kurskod</option>
         {isLoading ? (
-          <option disabled>Loading...</option>
+          <option disabled>Laddar...</option>
         ) : error ? (
           <option disabled>Error: {error.message}</option>
         ) : (
@@ -165,6 +174,7 @@ const SellSection = () => {
         name="condition"
         value={formData.condition}
         onChange={handleChange}
+        disabled={isSubmitting} // Disable input while submitting
       >
         <option value="">Skick</option>
         <option value="Ny">Ny</option>
@@ -187,6 +197,7 @@ const SellSection = () => {
               accept="image/*"
               onChange={handleImageChange}
               style={{ display: "none" }}
+              disabled={isSubmitting} // Disable input while submitting
             />
           </>
         ) : (
@@ -199,6 +210,7 @@ const SellSection = () => {
                 setImage(null);
                 setPreviewImage(null);
               }}
+              disabled={isSubmitting} // Disable button while submitting
             >
               Ta bort bild
             </button>
@@ -216,14 +228,27 @@ const SellSection = () => {
           />
         </div>
       )}
-      <Button className="button-primary" onClick={handleSubmit}>
-        ➕ Lägg till boken
+      <Button
+        className="button-primary"
+        onClick={handleSubmit}
+        disabled={isSubmitting} // Disable button while submitting
+      >
+        {isSubmitting ? (
+          <>
+            <span className="spinner"></span>
+            Laddar upp...
+          </>
+        ) : (
+          "➕ Lägg till boken"
+        )}
       </Button>
       <div style={{ marginTop: "40px" }}></div>
       <p style={{ fontSize: "0.9rem", margin: "10px 0", textAlign: "center" }}>
         Får du inte sålt din bok? Vi köper den!
       </p>
-      <Button className="sell-button">📦 Sälj direkt till oss</Button>
+      <Button className="sell-button" disabled={isSubmitting}>
+        📦 Sälj direkt till oss
+      </Button>
     </div>
   );
 };

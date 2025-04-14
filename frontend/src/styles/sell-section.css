@@ -247,3 +247,28 @@
   margin-bottom: 10px;
   padding: 5px 0;
 }
+
+/* Add spinner styles at the end of the file */
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Style for disabled inputs during submission */
+input:disabled, select:disabled, textarea:disabled, button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

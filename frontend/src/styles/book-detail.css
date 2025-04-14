@@ -13,13 +13,14 @@
   background-color: white;
   color: #1976d2;
   border: none;
-  border-radius: 25px; /* Reduced */
+  border-radius: 6px; /* Changed from 25px to 4px for rectangular shape */
   padding: 10px 18px; /* Reduced */
   font-weight: 600;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Reduced */
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
+  
 }
 
 .back-button:hover {

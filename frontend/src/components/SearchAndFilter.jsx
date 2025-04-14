@@ -11,6 +11,8 @@ const SearchAndFilter = ({ onFilterChange }) => {
     location: "",
     searchTerm: "",
   });
+  
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     onFilterChange(filters);
@@ -19,6 +21,20 @@ const SearchAndFilter = ({ onFilterChange }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFilters({ ...filters, [name]: value });
+  };
+  
+  const handleSearchInputChange = (event) => {
+    setSearchInput(event.target.value);
+  };
+  
+  const handleSearchSubmit = () => {
+    setFilters({ ...filters, searchTerm: searchInput });
+  };
+  
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearchSubmit();
+    }
   };
 
   // Fetch course codes using React Query with caching
@@ -36,15 +52,24 @@ const SearchAndFilter = ({ onFilterChange }) => {
 
   return (
     <div className="search-filters-container">
-      <input
-        id="searchBar"
-        type="text"
-        className="search-bar"
-        placeholder="Sök din kursbok..."
-        name="searchTerm"
-        value={filters.searchTerm}
-        onChange={handleChange}
-      />
+      <div className="search-bar-container">
+        <input
+          id="searchBar"
+          type="text"
+          className="search-bar"
+          placeholder="Sök din kursbok..."
+          value={searchInput}
+          onChange={handleSearchInputChange}
+          onKeyPress={handleKeyPress}
+        />
+        <button 
+          className="search-button" 
+          onClick={handleSearchSubmit}
+          aria-label="Sök"
+        >
+          Sök
+        </button>
+      </div>
       <div className="filters">
         <select 
           id="courseCodeFilter"
@@ -76,6 +101,8 @@ const SearchAndFilter = ({ onFilterChange }) => {
           </option>
           <option value="0-200 kr">0-200 kr</option>
           <option value="200-500 kr">200-500 kr</option>
+          <option value="500-1000 kr">500-1000 kr</option>
+          <option value="1000-10000 kr">1000+ kr</option>
         </select>
 
         <select
@@ -87,8 +114,11 @@ const SearchAndFilter = ({ onFilterChange }) => {
           <option value="">
             {filters.condition ? "Rensa filter" : "Filtrera skick"}
           </option>
-          <option value="Nyskick">Nyskick</option>
-          <option value="Bra skick">Bra skick</option>
+          <option value="Ny">Ny</option>
+          <option value="Mycket bra">Mycket bra</option>
+          <option value="Bra">Bra</option>
+          <option value="Använd">Använd</option>
+          <option value="Mycket använd">Mycket använd</option>
         </select>
       </div>
     </div>
