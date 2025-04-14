@@ -242,7 +242,7 @@ const RegisterLogin = () => {
 
   return (
     <div className="register-login-container">
-      <h2>{isRegistering ? "Create Account" : "Welcome Back"}</h2>
+      <h2>{isRegistering ? "Skapa ett konto" : "Välkommen"}</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
