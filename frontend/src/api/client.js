@@ -20,4 +20,25 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// Add a response interceptor to handle expired tokens
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Check if error is due to an expired or invalid token
+    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+      console.log('Token expired or invalid, removing credentials');
+      // Remove the invalid token
+      Cookies.remove('access_token');
+      // Remove Authorization header from future requests
+      delete apiClient.defaults.headers.common['Authorization'];
+      
+      // Optional: Redirect to login page if not already there
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default apiClient;

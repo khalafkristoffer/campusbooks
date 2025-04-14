@@ -10,7 +10,12 @@ export const AuthProvider = ({ children }) => {
 
   // Function to handle login
   const login = (token) => {
-    Cookies.set('access_token', token, { expires: 7, secure: true, sameSite: 'Lax' }); // Example cookie settings
+    // Set cookie to expire in 1 hour to match JWT token expiration
+    Cookies.set('access_token', token, { 
+      expires: 24, // 1 hour (1/24 of a day)
+      secure: true, 
+      sameSite: 'Lax' 
+    });
     apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Update apiClient header
     setIsAuthenticated(true);
   };
@@ -33,14 +38,25 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = Cookies.get('access_token');
     if (token) {
-      // You might want to add a check here to verify the token with the backend
+      // Add Authorization header
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      setIsAuthenticated(true);
+      
+      // Verify token validity with a simple API call
+      apiClient.get('/authenticated-route')
+        .then(() => {
+          setIsAuthenticated(true);
+        })
+        .catch((error) => {
+          // If unauthorized or token expired, clear the cookie and log out
+          if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+            console.log("Token expired or invalid, logging out");
+            logout();
+          }
+        });
     } else {
       setIsAuthenticated(false);
     }
   }, []);
-
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout, isSeller, setSellerMode }}> {/* Add isSeller and setSellerMode */}
