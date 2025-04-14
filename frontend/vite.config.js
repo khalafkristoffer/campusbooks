@@ -9,5 +9,17 @@ export default defineConfig({
   // Make Vite recognize environment variables
   define: {
     'process.env': process.env
+  },
+  // Configure server for history API fallback
+  server: {
+    historyApiFallback: true
+  },
+  // Ensure that built assets work with client-side routing
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
   }
 })
