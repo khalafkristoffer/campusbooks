@@ -37,6 +37,7 @@ origins = [
   "http://localhost:8000",  # Backend URL
   "https://chalmersshelf-api.onrender.com",
   "https://campusbooks.se",  # Production URL
+  "https://www.campusbooks.se",  # Production URL
   "https://campusbooks.vercel.app" # Frontend production URL
 ]
 
