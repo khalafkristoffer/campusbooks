@@ -74,7 +74,7 @@ const BookDetails = () => {
         
         <div className="book-detail-right">
           <h1>{book.title}</h1>
-          <p className="author-line">By {book.author}</p>
+          <p className="author-line">Författare: {book.author}</p>
           
           <div className="info-section">
             <div className="info-grid">
@@ -97,7 +97,7 @@ const BookDetails = () => {
           </div>
           
           <div className="description-section">
-            <h2>Description</h2>
+            <h2>Beskrivning</h2>
             <div className="book-description-box">
               <p>{book.description}</p>
             </div>

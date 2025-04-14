@@ -168,6 +168,9 @@
   font-weight: 600;
   font-size: 1rem; /* Reduced */
   color: #333;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%; /* prevent overflow */
 }
 
 .description-section {
