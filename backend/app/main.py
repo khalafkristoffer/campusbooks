@@ -35,8 +35,9 @@ app = FastAPI(
 origins = [
   "http://localhost:5173",  # Frontend development URL
   "http://localhost:8000",  # Backend URL
-  "https://campusbooks.onrender.com",     # Production URL
   "https://chalmersshelf-api.onrender.com"
+  "https://campusbooks.se",  # Production URL
+  "https://campusbooks.vercel.app/" # Frontend production URL
 ]
 
 # Add CORS middleware first
